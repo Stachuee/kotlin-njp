@@ -2,7 +2,7 @@
 import Canvas.Buttons.BuildButton
 import Canvas.Canvas
 import GameManagers.BuildingManager
-import GameManagers.Map
+import GameManagers.MapController
 import GameManagers.ResourceManager
 import GameManagers.UpdateManager
 import GameRenderer.GameCamera
@@ -51,7 +51,7 @@ fun main() = application {
 
         InputController.addMouseListener(BuildingManager)
 
-        Map.generateMap(Vector2(5000.0,5000.0))
+        MapController.generateMap(Vector2(5000.0,5000.0))
     }
 }
 
@@ -62,6 +62,7 @@ fun loadAssets(): kotlin.collections.Map<String, ColorBuffer> {
     map["characters"] = loadImage( "openrndr-template/src/main/resources/characters.png")
     map["enemies"] = loadImage( "openrndr-template/src/main/resources/enemies.png")
     map["foliage"] = loadImage( "openrndr-template/src/main/resources/foliage.png")
+    map["trees"] = loadImage( "openrndr-template/src/main/resources/trees.png")
     map["UIOne"] = loadImage( "openrndr-template/src/main/resources/UIOne.png")
 
     return map

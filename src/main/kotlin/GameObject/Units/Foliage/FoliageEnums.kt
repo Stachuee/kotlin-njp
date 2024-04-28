@@ -1,16 +1,12 @@
 package GameObject.Units.Foliage
 
 enum class FoliageBiom {
-    SHORE,
-    LIGHT_FORREST,
-    BADLANDS,
-    SWAMP,
-    DARK_BADLANDS,
-    DARK_FORREST,
+    FORREST,
+    PLAINS,
+    BADLANDS
 }
 
-enum class FoliageType{
-    TREE,
-    BUSH,
-    VANITY
+enum class BiomsStructures{
+    NONE,
+    FORREST
 }

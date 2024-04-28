@@ -71,7 +71,9 @@ object BuildingManager : IMouseButton, IUpdate  {
     override fun update() {
         if(ghostObject != null)
         {
-            ghostObject!!.setWorldPosition(GameCamera.screenToWorldPosition(InputController.getScreenMousePosition()))
+            val worldPos = GameCamera.screenToWorldPosition(InputController.getScreenMousePosition())
+            ghostObject!!.setWorldPosition(worldPos)
+            ghostObject!!.renderer.sortingLayer = (-worldPos.y).toInt()
         }
     }
 

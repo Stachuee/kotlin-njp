@@ -1,6 +1,7 @@
 package GameRenderer
 
 import Assets
+import GameManagers.MapController
 import InputSystem.InputController
 import SimulationEngine.Time
 import org.openrndr.Extension
@@ -87,6 +88,7 @@ object GameCamera : Extension{
     //</editor-fold>
 
     //<editor-fold desc="Render">
+
     private fun render(drawer: Drawer, program: Program){
         sortRenderers()
         for (renderer in toRender)
