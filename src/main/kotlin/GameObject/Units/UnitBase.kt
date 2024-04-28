@@ -17,12 +17,20 @@ open abstract class UnitBase : GameObject {
     }
 
 
+    override fun setWorldPosition(position: Vector2)
+    {
+        super.setWorldPosition(position)
+        this.renderer.setPosition(position)
+    }
+
     fun setUnitPosition(position: Vector2) : UnitBase
     {
-        this.worldPosition = position
-        this.renderer.setPosition(position)
+        setWorldPosition(position)
         return this
     }
+
+
+
 
     fun setActive(active: Boolean): UnitBase
     {
@@ -36,9 +44,10 @@ open abstract class UnitBase : GameObject {
         return this
     }
 
+
     fun innerUnit()
     {
-        renderer.setPosition(this.worldPosition)
+        renderer.setPosition(this.getWorldPosition())
         update()
     }
 

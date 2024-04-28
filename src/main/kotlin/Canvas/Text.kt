@@ -1,33 +1,34 @@
 package Canvas
 
 import GameRenderer.ObjectRenderer
-import org.openrndr.color.ColorRGBa
+import GameRenderer.RendererType
 import org.openrndr.math.Vector2
 
-open class Button : CanvasObject{
-
-    enum class highlightType { TINT, SPRITE_CHANGE }
-
+class Text : CanvasObject {
 
     constructor(renderer: ObjectRenderer, position: Vector2, size : Vector2) : super(renderer) {
         canvasSize = size
         canvasPosition = position
+        renderer.rendererType = RendererType.TEXT
+    }
+
+    fun setText(text: String) {
+        renderer.text = text
     }
 
     override fun onClick() {
+
     }
 
     override fun onHoverEnter() {
-        renderer.material.setTint(ColorRGBa.GRAY)
+
     }
 
     override fun onHoverExit() {
-        renderer.material.setTint(ColorRGBa.WHITE)
+
     }
 
     override fun onHover() {
 
     }
-
-
 }

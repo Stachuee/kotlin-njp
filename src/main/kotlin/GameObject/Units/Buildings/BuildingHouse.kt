@@ -6,7 +6,7 @@ import org.openrndr.math.Vector2
 class BuildingHouse(renderer: ObjectRenderer) : BuildingBase(renderer){
 
     constructor() : this(ObjectRenderer("buildings", Vector2(1.0,0.0), 0)) {
-        renderer.setPosition(worldPosition)
+        renderer.setPosition(getWorldPosition())
     }
 
     override fun update() {

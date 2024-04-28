@@ -2,27 +2,47 @@ package GameRenderer
 
 import org.openrndr.math.Vector2
 
+enum class RendererType{
+    TEXT,
+    IMAGE
+}
+
 class ObjectRenderer {
 
-    private var material : Material
-    private var sortingLayer : Int
-    private var worldPosition : Vector2
 
+    var material : Material
+    var sortingLayer : Int
+    private var worldPosition : Vector2
+    var rendererType : RendererType
+
+    var text : String = ""
 
     constructor(assetName : String, assetAtlasPosition: Vector2, sortingLayer: Int)
     {
         material = Material(assetAtlasPosition, assetName)
         this.sortingLayer = sortingLayer
         worldPosition = Vector2(0.0,0.0)
-        GameCamera.getInstance().addRenderer(this)
+        rendererType = RendererType.IMAGE
+        GameCamera.addRenderer(this)
     }
 
     constructor(material : Material, sortingLayer: Int)
     {
         this.material = material
         this.sortingLayer = sortingLayer
+        rendererType = RendererType.IMAGE
         worldPosition = Vector2(0.0,0.0)
     }
+
+    constructor(material : Material, sortingLayer: Int, text : String)
+    {
+        this.material = material
+        this.sortingLayer = sortingLayer
+        rendererType = RendererType.TEXT
+        this.text = text
+        worldPosition = Vector2(0.0,0.0)
+    }
+
 
     fun getPostion() : Vector2{
         return worldPosition
@@ -32,14 +52,12 @@ class ObjectRenderer {
         worldPosition = newPosition
     }
 
-    fun getSortingLayer() : Int
+
+    fun removeRenderer()
     {
-        return sortingLayer
+        GameCamera.removeRenderer(this)
     }
 
-    fun getMaterial() : Material{
-        return material
-    }
 
 
 }

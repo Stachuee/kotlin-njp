@@ -6,7 +6,7 @@ import org.openrndr.draw.Drawer
 import org.openrndr.math.Vector2
 
 
-class InputController private constructor() :Extension {
+object InputController :Extension {
 
     override var enabled: Boolean = true
 
@@ -16,18 +16,6 @@ class InputController private constructor() :Extension {
     private var verticalAxis: Double = 0.0
     private var mouseScrollAxis: Double = 0.0
 
-    //<editor-fold desc="Singleton">
-    companion object {
-
-        @Volatile
-        private var instance: InputController? = null
-
-        fun getInstance() =
-            instance ?: synchronized(this) {
-                instance ?: InputController().also { instance = it }
-            }
-    }
-    //</editor-fold>
 
     //<editor-fold desc="Setup">
     override fun setup(program: Program) {
@@ -45,7 +33,7 @@ class InputController private constructor() :Extension {
         }
 
         program.mouse.scrolled.listen{
-            mouseScrollAxis = Time.getInstance().deltaTime * it.rotation.y
+            mouseScrollAxis = Time.deltaTime * it.rotation.y
         }
 
 
@@ -89,23 +77,23 @@ class InputController private constructor() :Extension {
 
     //<editor-fold desc="ListnerFunc">
 
-    private var keyboardListener : MutableList<KeyboardInterface> = mutableListOf()
-    private var mouseListener : MutableList<MouseInterface> = mutableListOf()
+    private var keyboardListener : MutableList<IKeyboard> = mutableListOf()
+    private var mouseListener : MutableList<IMouseButton> = mutableListOf()
 
 
-    fun addKeyboardListener(listener: KeyboardInterface) {
+    fun addKeyboardListener(listener: IKeyboard) {
         keyboardListener.add(listener)
     }
 
-    fun removeKeyboardListener(listener: KeyboardInterface) {
+    fun removeKeyboardListener(listener: IKeyboard) {
         keyboardListener.remove(listener)
     }
 
-    fun addMouseListener(listener: MouseInterface) {
+    fun addMouseListener(listener: IMouseButton) {
         mouseListener.add(listener)
     }
 
-    fun removeMouseListener(listener: MouseInterface) {
+    fun removeMouseListener(listener: IMouseButton) {
         mouseListener.remove(listener)
     }
     //</editor-fold>

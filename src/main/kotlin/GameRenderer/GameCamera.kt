@@ -11,11 +11,9 @@ import org.openrndr.draw.tint
 import org.openrndr.math.Vector2
 import org.openrndr.shape.Rectangle
 
-class GameCamera private constructor(): Extension{
+object GameCamera : Extension{
 
     override var enabled: Boolean = true
-
-    private val atlasUnitSize = 158.0
 
     private var camZoom = 1.0
 
@@ -27,18 +25,6 @@ class GameCamera private constructor(): Extension{
 
     private var drawerWorldPosition : Vector2 = Vector2(0.0, 0.0)
 
-    //<editor-fold desc="Singleton">
-    companion object {
-
-        @Volatile
-        private var instance: GameCamera? = null
-
-        fun getInstance() =
-            instance ?: synchronized(this) {
-                instance ?: GameCamera().also { instance = it }
-            }
-    }
-    //</editor-fold>
 
     //<editor-fold desc="RenderedObjects">
     fun addRenderer(spriteRenderer: ObjectRenderer) {
@@ -85,14 +71,14 @@ class GameCamera private constructor(): Extension{
 
     fun moveCam()
     {
-        val input = InputController.getInstance();
-        drawerWorldPosition += Vector2(input.getAxis("horizontal"), input.getAxis("vertical")) * camSpeed * Time.getInstance().deltaTime
+        val input = InputController;
+        drawerWorldPosition += Vector2(input.getAxis("horizontal"), input.getAxis("vertical")) * camSpeed * Time.deltaTime
     }
 
     fun changeCamZoom()
     {
-        val input = InputController.getInstance()
-        camZoom += input.getScrollAxis() * camZoomSpeed * Time.getInstance().deltaTime
+        val input = InputController
+        camZoom += input.getScrollAxis() * camZoomSpeed * Time.deltaTime
         if(camZoom < minZoom) camZoom = minZoom
         else if(camZoom > maxZoom) camZoom = maxZoom
     }
@@ -101,29 +87,37 @@ class GameCamera private constructor(): Extension{
     //</editor-fold>
 
     //<editor-fold desc="Render">
-    fun render(drawer: Drawer, program: Program){
+    private fun render(drawer: Drawer, program: Program){
+        sortRenderers()
         for (renderer in toRender)
         {
+            val mat = renderer.material
             val pos = worldToScreenPosition(renderer.getPostion())
-            if(pos.x < 0 ||
-                pos.x > gameCameraSize.x ||
-                pos.y < 0 ||
-                pos.y > gameCameraSize.y) {
+
+            if(pos.x + mat.atlasUnitSize < 0 ||
+                pos.x - mat.atlasUnitSize > gameCameraSize.x ||
+                pos.y + mat.atlasUnitSize < 0 ||
+                pos.y - mat.atlasUnitSize > gameCameraSize.y) {
                 continue
             }
 
-            val mat = renderer.getMaterial()
             drawer.drawStyle.colorMatrix = tint(mat.getTint())
             Assets.get(mat.getAtlasName())?.let { drawer.image(it,
                 Rectangle(
                     mat.getAtlasPosition(),
-                    atlasUnitSize),
+                    mat.atlasUnitSize),
                 Rectangle(
-                    pos - atlasUnitSize * 1/2 * camZoom ,
-                    atlasUnitSize * camZoom))
+                    pos - mat.atlasUnitSize * 1/2 * camZoom ,
+                    mat.atlasUnitSize * camZoom))
             }
         }
     }
+
+    private fun sortRenderers()
+    {
+        toRender.sortWith(compareByDescending {it.sortingLayer })
+    }
+
     //</editor-fold>
 
 }

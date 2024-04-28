@@ -5,5 +5,4 @@ import GameObject.Units.UnitBase
 
 abstract class BuildingBase(renderer: ObjectRenderer) : UnitBase(renderer){
 
-
 }

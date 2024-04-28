@@ -1,7 +1,7 @@
 package InputSystem
 
 
-interface KeyboardInterface {
+interface IKeyboard {
     fun keyDown(key: String)
     fun keyUp(key: String)
 }
