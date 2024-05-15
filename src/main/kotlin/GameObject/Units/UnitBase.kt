@@ -10,6 +10,7 @@ open abstract class UnitBase : GameObject {
 
     var active = false
     var hp = 0.0
+    var speed = 0.0
 
     constructor(renderer : ObjectRenderer)
     {
@@ -44,6 +45,10 @@ open abstract class UnitBase : GameObject {
         return this
     }
 
+    fun setSpeed(speed: Double): UnitBase{
+        this.speed = speed
+        return this
+    }
 
     fun innerUnit()
     {

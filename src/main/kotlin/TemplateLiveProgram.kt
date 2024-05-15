@@ -44,11 +44,13 @@ fun main() = application {
         UpdateManager.addListener(BuildingManager)
         UpdateManager.addListener(ResourceManager)
 
+
+        /*
         val mat = Material(Vector2(0.0,0.0), "buildings")
         Canvas.instantiateCanvasObject(
             BuildButton(ObjectRenderer(mat, 0), Vector2(0.0, 0.0), Vector2(160.0, 160.0))
         )
-
+         */
         InputController.addMouseListener(BuildingManager)
 
         MapController.generateMap(Vector2(5000.0,5000.0))

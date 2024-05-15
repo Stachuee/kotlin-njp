@@ -96,6 +96,7 @@ object GameCamera : Extension{
             val mat = renderer.material
             val pos = worldToScreenPosition(renderer.getPostion())
 
+
             if(pos.x + mat.atlasUnitSize < 0 ||
                 pos.x - mat.atlasUnitSize > gameCameraSize.x ||
                 pos.y + mat.atlasUnitSize < 0 ||

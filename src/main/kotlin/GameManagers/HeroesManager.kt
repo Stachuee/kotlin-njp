@@ -1,0 +1,5 @@
+package GameManagers
+
+object HeroesManager {
+
+}

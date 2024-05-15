@@ -1,9 +1,14 @@
 package GameManagers
 
+import GameObject.Units.Buildings.BuildingEnum
 import GameObject.Units.Foliage.BiomsStructures
 import GameObject.Units.Foliage.Foliage
 import GameObject.Units.Foliage.FoliageBiom
 import GameObject.Units.Foliage.FoliageFactory
+import GameObject.Units.Heroes.HeroesBuilder
+import GameObject.Units.Heroes.HeroesEnum
+import GameObject.Units.UnitController
+import GameRenderer.GameCamera
 import org.openrndr.extra.noise.Random
 import org.openrndr.math.IntVector2
 import org.openrndr.math.Vector2
@@ -27,6 +32,16 @@ object MapController {
         this.mapSize = mapSize
         generateBioms()
         generateBiomFoliage(0.00005)
+        generateBasicStructures()
+        generateStartingUnits()
+    }
+
+    fun generateStartingUnits(){
+        for(i in 1..10) UnitController.addUnit(HeroesBuilder.placeHero(HeroesEnum.PEASANT, Vector2.ZERO))
+    }
+
+    fun generateBasicStructures(){
+        BuildingManager.buildBuilding(BuildingEnum.TAVERN, Vector2.ZERO, false)
     }
 
     fun generateBioms(){

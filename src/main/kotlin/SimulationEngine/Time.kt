@@ -8,6 +8,7 @@ object Time : Extension{
 
     var deltaTime: Double = 0.0
     var lastFrame: Double = 0.0
+    var time: Double = 0.0
     override var enabled: Boolean = true
 
 
@@ -15,6 +16,7 @@ object Time : Extension{
     {
         deltaTime = (System.currentTimeMillis() - lastFrame) / 1000
         lastFrame = System.currentTimeMillis().toDouble()
+        time += deltaTime
     }
 
     override fun beforeDraw(drawer: Drawer, program: Program) {
@@ -24,5 +26,6 @@ object Time : Extension{
     override fun setup(program: Program) {
         deltaTime = 0.0
         lastFrame = System.currentTimeMillis().toDouble()
+        time = 0.0
     }
 }
