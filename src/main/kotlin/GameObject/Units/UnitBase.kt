@@ -8,7 +8,6 @@ open abstract class UnitBase : GameObject {
 
     var renderer : ObjectRenderer
 
-    var active = false
     var hp = 0.0
     var speed = 0.0
 
@@ -33,11 +32,6 @@ open abstract class UnitBase : GameObject {
 
 
 
-    fun setActive(active: Boolean): UnitBase
-    {
-        this.active = active
-        return this
-    }
 
     fun setHP(hp: Double): UnitBase
     {

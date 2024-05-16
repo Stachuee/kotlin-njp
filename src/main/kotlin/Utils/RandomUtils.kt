@@ -9,9 +9,9 @@ import kotlin.math.sqrt
 
 object RandomUtils {
 
-    fun getPointOnCircle() : Vector2{
+    fun getPointOnCircle(range : Double = 1.0) : Vector2{
         val r = sqrt(Random.double(0.0, 1.0))
         val theta = Random.double(0.0, 1.0) * 2 * PI
-        return Vector2(r + cos(theta), r + sin(theta))
+        return Vector2((r + cos(theta)) * range, (r + sin(theta)) * range)
     }
 }

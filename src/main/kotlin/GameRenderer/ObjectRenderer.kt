@@ -14,6 +14,7 @@ class ObjectRenderer {
     var sortingLayer : Int
     private var worldPosition : Vector2
     var rendererType : RendererType
+    var rendererActive : Boolean = true
 
     var text : String = ""
 

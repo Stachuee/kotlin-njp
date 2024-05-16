@@ -93,6 +93,7 @@ object GameCamera : Extension{
         sortRenderers()
         for (renderer in toRender)
         {
+            if (!renderer.rendererActive) continue
             val mat = renderer.material
             val pos = worldToScreenPosition(renderer.getPostion())
 

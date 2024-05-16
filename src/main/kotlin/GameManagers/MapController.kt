@@ -9,6 +9,9 @@ import GameObject.Units.Heroes.HeroesBuilder
 import GameObject.Units.Heroes.HeroesEnum
 import GameObject.Units.UnitController
 import GameRenderer.GameCamera
+import GameRenderer.ObjectRenderer
+import InputSystem.IMousePosition
+import Utils.RandomUtils
 import org.openrndr.extra.noise.Random
 import org.openrndr.math.IntVector2
 import org.openrndr.math.Vector2
@@ -27,6 +30,8 @@ object MapController {
     var mapNodeStructures = Array(2) { Array<BiomsStructures>(2) { BiomsStructures.NONE } }
     var mapNodeSize : IntVector2 = IntVector2.ZERO
 
+    //<editor-fold desc="Map gen">
+
     fun generateMap(mapSize : Vector2)
     {
         this.mapSize = mapSize
@@ -37,7 +42,7 @@ object MapController {
     }
 
     fun generateStartingUnits(){
-        for(i in 1..10) UnitController.addUnit(HeroesBuilder.placeHero(HeroesEnum.PEASANT, Vector2.ZERO))
+        for(i in 1..10) UnitController.addUnit(HeroesBuilder.placeHero(HeroesEnum.PEASANT, RandomUtils.getPointOnCircle(100.0) ))
     }
 
     fun generateBasicStructures(){
@@ -169,6 +174,7 @@ object MapController {
             }
         }
     }
+    //</editor-fold>
 
     fun getBiomFromPosition(postion : Vector2) : FoliageBiom
     {
@@ -183,4 +189,19 @@ object MapController {
     }
 
 
+    fun getClosestFoliage(position: Vector2) : Foliage?{
+        var closest : Foliage? = null
+        var closestDist = Double.POSITIVE_INFINITY
+
+        for (x in foliageList){
+            if(!x.getActive()) continue
+            val dist = (position - x.getWorldPosition()).length
+
+            if(closestDist > dist ){
+                closestDist = dist
+                closest = x
+            }
+        }
+        return closest
+    }
 }
