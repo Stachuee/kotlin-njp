@@ -14,6 +14,7 @@ open abstract class UnitBase : GameObject {
     constructor(renderer : ObjectRenderer)
     {
         this.renderer = renderer
+        renderer.sortingLayer = -getWorldPosition().y.toInt()
     }
 
 

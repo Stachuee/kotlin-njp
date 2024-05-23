@@ -2,6 +2,7 @@ package GameObject.Units.Heroes
 
 import GameObject.GameObject
 import GameObject.Units.UnitBase
+import GameObject.Units.UnitController
 import GameRenderer.Animations.AnimationLibrary
 import GameRenderer.ObjectRenderer
 import org.openrndr.math.Vector2
@@ -15,7 +16,13 @@ abstract class HeroBase: UnitBase {
     constructor(renderer: ObjectRenderer) : super(renderer) {
         renderer.addAnimator()
         renderer.animator?.addAnimation("walk", AnimationLibrary.walk)
-        renderer.animator?.triggerAnimation("walk")
+        renderer.animator?.addAnimation("idle", AnimationLibrary.idle)
+        renderer.animator?.addAnimation("attack", AnimationLibrary.attack)
+
+    }
+
+    init {
+        UnitController.addUnit(this)
     }
 
     override fun update() {

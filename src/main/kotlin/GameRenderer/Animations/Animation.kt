@@ -11,13 +11,20 @@ class Animation {
 
     var endingTime = 0.0
     var startTime = 0.0
+    var looping = false
 
     fun addAnimationKeys(keys : AnimationKeys) : Animation{
         animationKeys.add(keys)
         return this
     }
 
+    fun setLooping(newLooping: Boolean): Animation{
+        looping = newLooping
+        return this
+    }
+
     fun startAnimation(){
+        endingTime = 0.0
         animationKeys.forEach {
             val time = it.getPlayTime()
             if(time > endingTime) endingTime = time
@@ -27,7 +34,12 @@ class Animation {
     }
 
     fun playAnimation(renderer: ObjectRenderer) : Boolean{
-        if(endingTime <= Time.time) return false
+        if(endingTime <= Time.time){
+            if (looping) {
+                startAnimation()
+            }
+            else return false
+        }
         val progress = (Time.time - startTime)
 
         animationKeys.forEach{

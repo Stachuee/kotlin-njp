@@ -9,20 +9,15 @@ object BuildingFactory {
     fun buildBuilding(building : BuildingEnum, position: Vector2) : BuildingBase {
         when(building)
         {
-            BuildingEnum.HOUSE -> return build(position, Vector2(0.0, 0.0))
-            BuildingEnum.TAVERN -> return  build(position, Vector2(0.0, 1.0))
+            BuildingEnum.HOUSE -> return BuildingHouse().setUnitPosition(GameCamera.screenToWorldPosition(position)) as BuildingBase
+            BuildingEnum.TAVERN -> return BuildingTavern().setUnitPosition(GameCamera.screenToWorldPosition(position)) as BuildingBase
+            BuildingEnum.MINE -> return BuildingMine().setUnitPosition(GameCamera.screenToWorldPosition(position)) as BuildingBase
+            BuildingEnum.FARM -> return BuildingFarm().setUnitPosition(GameCamera.screenToWorldPosition(position)) as BuildingBase
         }
     }
 
     private fun build(position: Vector2, atlasPosition: Vector2) : BuildingBase {
-        val building = BuildingHouse(
-            ObjectRenderer(
-                "buildings",
-                atlasPosition, 0
-            )
-        ).setUnitPosition(
-            GameCamera.screenToWorldPosition(position)
-        ) as BuildingBase
+        val building = BuildingHouse().setUnitPosition(GameCamera.screenToWorldPosition(position)) as BuildingBase
 
         return building
     }

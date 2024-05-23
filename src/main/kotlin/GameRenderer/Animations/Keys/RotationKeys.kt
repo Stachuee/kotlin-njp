@@ -17,11 +17,10 @@ class RotationKeys : AnimationKeys() {
     override fun linearInterpolation(renderer: ObjectRenderer, timeStamp: Double) {
         if(rotationChange.isEmpty() || timeStamp < rotationChange[0].timeStamp || timeStamp > rotationChange.last().timeStamp) return
 
-        val first = rotationChange.last { it.timeStamp < timeStamp }
+        val first = rotationChange.last { it.timeStamp <= timeStamp }
         val second = rotationChange.first {it.timeStamp > timeStamp }
 
         val subtimeStamp = 1 - ((second.timeStamp - timeStamp) / (second.timeStamp - first.timeStamp))
-        println((second.timeStamp - first.timeStamp - timeStamp))
         renderer.setRotation(first.rotation + (second.rotation - first.rotation) * subtimeStamp)
     }
 

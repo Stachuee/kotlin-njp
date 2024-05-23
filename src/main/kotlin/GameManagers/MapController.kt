@@ -37,17 +37,9 @@ object MapController {
         this.mapSize = mapSize
         generateBioms()
         generateBiomFoliage(0.00005)
-        generateBasicStructures()
-        generateStartingUnits()
+        VillageController.createVillage()
     }
 
-    fun generateStartingUnits(){
-        for(i in 1..1) UnitController.addUnit(HeroesBuilder.placeHero(HeroesEnum.PEASANT, RandomUtils.getPointOnCircle(100.0) ))
-    }
-
-    fun generateBasicStructures(){
-        BuildingManager.buildBuilding(BuildingEnum.TAVERN, Vector2.ZERO, false)
-    }
 
     fun generateBioms(){
         mapNodeSize = IntVector2(kotlin.math.ceil((mapSize.x/nodeDistance)).toInt(), kotlin.math.ceil((mapSize.y/nodeDistance)).toInt())
@@ -188,20 +180,4 @@ object MapController {
         return mapNodeStructures[nodePosition.x + mapNodeSize.x/2][nodePosition.y+ mapNodeSize.y/2]
     }
 
-
-    fun getClosestFoliage(position: Vector2) : Foliage?{
-        var closest : Foliage? = null
-        var closestDist = Double.POSITIVE_INFINITY
-
-        for (x in foliageList){
-            if(!x.getActive()) continue
-            val dist = (position - x.getWorldPosition()).length
-
-            if(closestDist > dist ){
-                closestDist = dist
-                closest = x
-            }
-        }
-        return closest
-    }
 }

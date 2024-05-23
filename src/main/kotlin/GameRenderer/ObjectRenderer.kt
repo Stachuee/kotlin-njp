@@ -14,6 +14,7 @@ class ObjectRenderer {
     class Animator {
         var animationLibrary : MutableMap<String, Animation> = mutableMapOf()
         var currentAnimation : Animation? = null
+        var currentAnimationKey : String? = null
 
         fun addAnimation(trigger: String, animation: Animation) {
             animationLibrary.put(trigger, animation)
@@ -21,9 +22,11 @@ class ObjectRenderer {
 
         fun triggerAnimation(trigger : String)
         {
+            if(trigger == currentAnimationKey) return
             currentAnimation = animationLibrary[trigger]
             if(currentAnimation != null)
             {
+                currentAnimationKey = trigger
                 currentAnimation!!.startAnimation()
             }
         }
