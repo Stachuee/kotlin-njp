@@ -94,6 +94,8 @@ object GameCamera : Extension{
         for (renderer in toRender)
         {
             if (!renderer.rendererActive) continue
+            drawer.pushTransforms()
+            renderer.animator?.updateAnimation(renderer)
             val mat = renderer.material
             val pos = worldToScreenPosition(renderer.getPostion())
 
@@ -106,14 +108,29 @@ object GameCamera : Extension{
             }
 
             drawer.drawStyle.colorMatrix = tint(mat.getTint())
+
+
+            drawer.translate(pos)
+            drawer.rotate(renderer.getRotation())
+            drawer.scale(renderer.getScale().x, renderer.getScale().y)
+
             Assets.get(mat.getAtlasName())?.let { drawer.image(it,
                 Rectangle(
                     mat.getAtlasPosition(),
                     mat.atlasUnitSize),
                 Rectangle(
-                    pos - mat.atlasUnitSize * 1/2 * camZoom ,
+                    Vector2.ZERO - mat.atlasUnitSize * 1/2 * camZoom,
                     mat.atlasUnitSize * camZoom))
             }
+
+            drawer.popTransforms()
+
+            /*
+            drawer.pushTransforms()
+            drawer.translate(pos )
+            drawer.circle(Vector2.ZERO, 10.0)
+            drawer.popTransforms()
+            */
         }
     }
 

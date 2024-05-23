@@ -1,16 +1,16 @@
 
-import Canvas.Buttons.BuildButton
+
 import Canvas.Canvas
 import GameManagers.BuildingManager
 import GameManagers.MapController
 import GameManagers.ResourceManager
 import GameManagers.UpdateManager
 import GameRenderer.GameCamera
-import GameRenderer.ObjectRenderer
+
 import InputSystem.InputController
 import SimulationEngine.Time
 import GameObject.Units.UnitController
-import GameRenderer.Material
+
 import org.openrndr.application
 import org.openrndr.color.ColorRGBa
 import org.openrndr.draw.ColorBuffer
@@ -18,7 +18,7 @@ import org.openrndr.draw.loadImage
 import org.openrndr.math.Vector2
 
 
-var Assets : kotlin.collections.Map<String, ColorBuffer> = mapOf<String, ColorBuffer>()
+var Assets : Map<String, ColorBuffer> = mapOf<String, ColorBuffer>()
 
 fun main() = application {
     configure {
@@ -57,15 +57,15 @@ fun main() = application {
     }
 }
 
-fun loadAssets(): kotlin.collections.Map<String, ColorBuffer> {
+fun loadAssets(): Map<String, ColorBuffer> {
     val map = HashMap<String, ColorBuffer>()
 
-    map["buildings"] = loadImage( "openrndr-template/src/main/resources/buildings.png")
-    map["characters"] = loadImage( "openrndr-template/src/main/resources/characters.png")
-    map["enemies"] = loadImage( "openrndr-template/src/main/resources/enemies.png")
-    map["foliage"] = loadImage( "openrndr-template/src/main/resources/foliage.png")
-    map["trees"] = loadImage( "openrndr-template/src/main/resources/trees.png")
-    map["UIOne"] = loadImage( "openrndr-template/src/main/resources/UIOne.png")
+    map["buildings"] = loadImage( "src/main/resources/buildings.png")
+    map["characters"] = loadImage( "src/main/resources/characters.png")
+    map["enemies"] = loadImage( "src/main/resources/enemies.png")
+    map["foliage"] = loadImage( "src/main/resources/foliage.png")
+    map["trees"] = loadImage( "src/main/resources/trees.png")
+    map["UIOne"] = loadImage( "src/main/resources/UIOne.png")
 
     return map
 }

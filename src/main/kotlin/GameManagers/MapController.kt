@@ -42,7 +42,7 @@ object MapController {
     }
 
     fun generateStartingUnits(){
-        for(i in 1..10) UnitController.addUnit(HeroesBuilder.placeHero(HeroesEnum.PEASANT, RandomUtils.getPointOnCircle(100.0) ))
+        for(i in 1..1) UnitController.addUnit(HeroesBuilder.placeHero(HeroesEnum.PEASANT, RandomUtils.getPointOnCircle(100.0) ))
     }
 
     fun generateBasicStructures(){
