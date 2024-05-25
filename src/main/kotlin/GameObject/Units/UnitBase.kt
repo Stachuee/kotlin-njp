@@ -14,7 +14,6 @@ open abstract class UnitBase : GameObject {
     constructor(renderer : ObjectRenderer)
     {
         this.renderer = renderer
-        renderer.sortingLayer = -getWorldPosition().y.toInt()
     }
 
 
@@ -22,6 +21,7 @@ open abstract class UnitBase : GameObject {
     {
         super.setWorldPosition(position)
         this.renderer.setPosition(position)
+        renderer.sortingLayer = -getWorldPosition().y.toInt()
     }
 
     fun setUnitPosition(position: Vector2) : UnitBase

@@ -22,7 +22,7 @@ object BuildingManager : IMouseButton, IUpdate  {
     }
 
 
-    fun buildBuilding(building : BuildingEnum, position: Vector2, ghost :Boolean) {
+    fun buildBuilding(building : BuildingEnum, position: Vector2, ghost :Boolean) : BuildingBase {
         var build = BuildingFactory.buildBuilding(building, position)
         if(ghost)
         {
@@ -34,6 +34,7 @@ object BuildingManager : IMouseButton, IUpdate  {
             addBuildingUnit(build)
             build.setActive(true)
         }
+        return build
     }
 
     fun addBuildingUnit(building : BuildingBase) {

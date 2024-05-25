@@ -1,10 +1,7 @@
 
 
 import Canvas.Canvas
-import GameManagers.BuildingManager
-import GameManagers.MapController
-import GameManagers.ResourceManager
-import GameManagers.UpdateManager
+import GameManagers.*
 import GameRenderer.GameCamera
 
 import InputSystem.InputController
@@ -43,7 +40,7 @@ fun main() = application {
 
         UpdateManager.addListener(BuildingManager)
         UpdateManager.addListener(ResourceManager)
-
+        UpdateManager.addListener(VillageController)
 
         /*
         val mat = Material(Vector2(0.0,0.0), "buildings")

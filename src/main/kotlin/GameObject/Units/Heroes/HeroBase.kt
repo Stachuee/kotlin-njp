@@ -9,7 +9,7 @@ import org.openrndr.math.Vector2
 
 abstract class HeroBase: UnitBase {
 
-    protected var state : HeroStates = HeroStates.IDLE
+    var state : HeroStates = HeroStates.IDLE
     protected var moveDirection : Vector2 = Vector2.ZERO
     protected var target : GameObject? = null
 
@@ -26,7 +26,7 @@ abstract class HeroBase: UnitBase {
     }
 
     override fun update() {
-        renderer.sortingLayer = -getWorldPosition().y.toInt()
+        renderer.sortingLayer = -getWorldPosition().y.toInt() - 100
         renderer.setFlipped(moveDirection.x > 0)
         when (state){
             HeroStates.IDLE -> idle()

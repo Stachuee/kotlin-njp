@@ -1,30 +1,47 @@
 package GameManagers
 
 import Canvas.Canvas
+import Canvas.Icon
 import Canvas.Text
 import GameRenderer.Material
 import GameRenderer.ObjectRenderer
 import org.openrndr.math.Vector2
 
 object ResourceManager : IUpdate {
-    private var gold : Int = 0
-    private var meat : Int = 0
+    var gold : Int = 0
+    var food : Int = 0
 
-    fun getGold() = gold
-    fun getMeat() = meat
 
-    fun addGold(gold: Int) { this.gold = gold }
-    fun addMeat(meat: Int) { this.meat = meat }
+    val mat = Material(Vector2(0.0,0.0), "UIOne")
+    val meatMat = Material(Vector2(0.0,1.0), "UIOne")
+    val goldMat = Material(Vector2(0.0,0.0), "UIOne")
+
+    val goldText : Text = Text(ObjectRenderer(mat, 0), Vector2(60.0, 40.0), Vector2(0.0, 0.0))
+    val meatText : Text = Text(ObjectRenderer(mat, 0), Vector2(160.0, 40.0), Vector2(0.0, 0.0))
+
+    val meatIcon = Icon(ObjectRenderer(meatMat, 0), Vector2(125.0, 25.0), Vector2(25.0, 25.0))
+    val goldIcon = Icon(ObjectRenderer(goldMat, 0), Vector2(25.0, 25.0), Vector2(25.0, 25.0))
 
     init {
-        val mat = Material(Vector2(0.0,0.0), "buildings")
-        val text = Text(ObjectRenderer(mat, 0), Vector2(100.0, 100.0), Vector2(0.0, 0.0))
-        text.setText("moni")
-        Canvas.instantiateCanvasObject(text)
+        gold = 5
+        food = 0
+
+
+        Canvas.instantiateCanvasObject(meatIcon)
+        Canvas.instantiateCanvasObject(goldIcon)
+
+        Canvas.instantiateCanvasObject(goldText)
+        Canvas.instantiateCanvasObject(meatText)
     }
 
     override fun update() {
+        goldText.setText(gold.toString())
+        meatText.setText(food.toString())
+    }
 
+    fun addResources(gold: Int, food: Int){
+        this.gold += gold
+        this.food += food
     }
 
 }

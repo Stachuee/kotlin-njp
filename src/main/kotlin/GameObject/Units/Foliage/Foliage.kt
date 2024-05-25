@@ -7,23 +7,15 @@ import org.openrndr.math.Vector2
 
 class Foliage(var renderer: ObjectRenderer) : GameObject() {
 
-    var chopsRemaining = 1
-
 
     init {
         GameCamera.addRenderer(renderer)
     }
 
-    fun chop(){
-        chopsRemaining -= 1
-        if(chopsRemaining <= 0){
-            setActive(false)
-        }
-    }
-
     override fun setWorldPosition(position: Vector2) {
         super.setWorldPosition(position)
         renderer.setPosition(position)
+        renderer.sortingLayer = -getWorldPosition().y.toInt()
     }
 
     override fun setActive(active: Boolean) {

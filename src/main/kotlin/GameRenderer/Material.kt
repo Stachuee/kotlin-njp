@@ -2,10 +2,11 @@ package GameRenderer
 
 import org.openrndr.color.ColorRGBa
 import org.openrndr.math.Vector2
+import org.openrndr.panel.style.Position
 
 class Material {
 
-    private val atlasPosition : Vector2
+    private var atlasPosition : Vector2
     private var atlasName : String
     private var tint : ColorRGBa
     var atlasUnitSize = 160.0
@@ -31,6 +32,11 @@ class Material {
 
     fun setTint (tint : ColorRGBa) {
         this.tint = tint
+    }
+
+    fun setSprite(atlas: String, position: Vector2, atlasSize : Double = atlasUnitSize){
+        atlasName = atlas
+        atlasPosition = position * atlasSize
     }
 
 }

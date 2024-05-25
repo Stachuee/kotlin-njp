@@ -1,7 +1,10 @@
 package GameObject.Units.Heroes.Types
 
 import GameManagers.MapController
+import GameManagers.VillageController
 import GameObject.GameObject
+import GameObject.Units.Buildings.BuildingFarm
+import GameObject.Units.Buildings.BuildingMine
 import GameObject.Units.Foliage.Foliage
 import GameObject.Units.Heroes.HeroBase
 import GameObject.Units.Heroes.HeroStates
@@ -13,12 +16,21 @@ import org.openrndr.math.Vector2
 
 class Pesant(renderer: ObjectRenderer) : HeroBase(renderer){
 
+    private enum class CurrentJob {FOOD_HARVESTING, GOLD_HARVESTING, BUILDING, CARRYING}
 
-    private var nextWanderDirectionChange = 0.0
-    private var housePosition : Vector2 = Vector2.ZERO
-    private var wanderDistance = 100.0
-    private var idleChance = 0.7
+    companion object{
+        var harvestTime = 3.0
+    }
+
     private var workEnd : Double = 0.0
+    private var workDelay = false
+
+    private var goldCarried = 0
+    private var foodCarried = 0
+
+    private var currentJob : CurrentJob = CurrentJob.FOOD_HARVESTING
+    private var farmToHarvest : BuildingFarm? = null
+    private var mineToHarvest : BuildingMine? = null
 
     constructor() : this(ObjectRenderer("characters", Vector2(0.0,0.0), 0)) {
         this.setHP(10.0)
@@ -27,6 +39,27 @@ class Pesant(renderer: ObjectRenderer) : HeroBase(renderer){
 
     override fun idle() {
         super.idle()
+
+        renderer.animator?.triggerAnimation("idle")
+
+        farmToHarvest = BuildingFarm.farmReadyToHarvest()
+        if(farmToHarvest != null)
+        {
+            currentJob = CurrentJob.FOOD_HARVESTING
+            state = HeroStates.WORK
+            return
+        }
+
+        mineToHarvest = BuildingMine.findClosestMine(getWorldPosition())
+        if(mineToHarvest != null)
+        {
+            currentJob = CurrentJob.GOLD_HARVESTING
+            state = HeroStates.WORK
+            return
+        }
+
+
+        /*
         if (nextWanderDirectionChange < Time.time) {
             nextWanderDirectionChange = Random.double(4.0, 6.0) + Time.time
 
@@ -34,13 +67,85 @@ class Pesant(renderer: ObjectRenderer) : HeroBase(renderer){
             else ((housePosition + Vector2(Random.double(-wanderDistance, wanderDistance), Random.double(-wanderDistance, wanderDistance))) - getWorldPosition()).normalized
         }
         setUnitPosition(getWorldPosition() + moveDirection * speed * Time.deltaTime)
+        */
     }
 
     override fun work() {
         super.work()
-        return
-        //if(workEnd > Time.time)return
+        when(currentJob){
+            CurrentJob.FOOD_HARVESTING -> gatherFood()
+            CurrentJob.GOLD_HARVESTING -> gatherGold()
+            CurrentJob.BUILDING -> build()
+            CurrentJob.CARRYING -> carry()
+        }
+    }
 
-        //(getWorldPosition() + moveDirection * speed * Time.deltaTime)
+    fun gatherFood(){
+        if(farmToHarvest == null) state = HeroStates.IDLE
+        if(getWorldPosition().distanceTo(farmToHarvest!!.getWorldPosition()) < 5){
+            renderer.animator?.triggerAnimation("attack")
+
+            if(!workDelay)
+            {
+                workDelay = true
+                workEnd = Time.time + harvestTime
+            }
+            else if(workEnd < Time.time)
+            {
+                workDelay = false
+                foodCarried += farmToHarvest!!.harvest()
+                currentJob = CurrentJob.CARRYING
+            }
+        }
+        else
+        {
+            renderer.animator?.triggerAnimation("walk")
+            moveDirection = (farmToHarvest!!.getWorldPosition() - getWorldPosition()).normalized
+            setUnitPosition(getWorldPosition() + moveDirection * speed * Time.deltaTime)
+        }
+    }
+
+    fun gatherGold(){
+        if(mineToHarvest == null) state = HeroStates.IDLE
+        if(getWorldPosition().distanceTo(mineToHarvest!!.getWorldPosition()) < 5){
+            renderer.animator?.triggerAnimation("attack")
+
+            if(!workDelay)
+            {
+                workDelay = true
+                workEnd = Time.time + harvestTime
+            }
+            else if(workEnd < Time.time)
+            {
+                workDelay = false
+                goldCarried += mineToHarvest!!.harvest()
+                currentJob = CurrentJob.CARRYING
+            }
+        }
+        else
+        {
+            renderer.animator?.triggerAnimation("walk")
+            moveDirection = (mineToHarvest!!.getWorldPosition() - getWorldPosition()).normalized
+            setUnitPosition(getWorldPosition() + moveDirection * speed * Time.deltaTime)
+        }
+    }
+
+    fun build(){
+
+    }
+
+    fun carry(){
+        if(getWorldPosition().distanceTo(VillageController.tavern.getWorldPosition()) < 5){
+            VillageController.tavern.deposit(goldCarried, foodCarried)
+            foodCarried = 0
+            goldCarried = 0
+            state = HeroStates.IDLE
+        }
+        else
+        {
+            renderer.animator?.triggerAnimation("walk")
+            moveDirection = (VillageController.tavern.getWorldPosition() - getWorldPosition()).normalized
+            setUnitPosition(getWorldPosition() + moveDirection * speed * Time.deltaTime)
+        }
     }
 }
