@@ -9,10 +9,10 @@ object BuildingFactory {
     fun buildBuilding(building : BuildingEnum, position: Vector2) : BuildingBase {
         when(building)
         {
-            BuildingEnum.HOUSE -> return BuildingHouse().setUnitPosition(GameCamera.screenToWorldPosition(position)) as BuildingBase
-            BuildingEnum.TAVERN -> return BuildingTavern().setUnitPosition(GameCamera.screenToWorldPosition(position)) as BuildingBase
-            BuildingEnum.MINE -> return BuildingMine().setUnitPosition(GameCamera.screenToWorldPosition(position)) as BuildingBase
-            BuildingEnum.FARM -> return BuildingFarm().setUnitPosition(GameCamera.screenToWorldPosition(position)) as BuildingBase
+            BuildingEnum.HOUSE -> return BuildingHouse().setUnitPosition(position) as BuildingBase
+            BuildingEnum.TAVERN -> return BuildingTavern().setUnitPosition(position) as BuildingBase
+            BuildingEnum.MINE -> return BuildingMine().setUnitPosition(position) as BuildingBase
+            BuildingEnum.FARM -> return BuildingFarm().setUnitPosition(position) as BuildingBase
         }
     }
 

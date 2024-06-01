@@ -18,22 +18,16 @@ object BuildingManager : IMouseButton, IUpdate  {
     var showGhost : Boolean = false
 
     fun showGhost(building: BuildingEnum) {
-        buildBuilding(building, GameCamera.screenToWorldPosition(InputController.getScreenMousePosition()), true)
+        buildBuilding(building, GameCamera.screenToWorldPosition(InputController.getScreenMousePosition()))
     }
 
 
-    fun buildBuilding(building : BuildingEnum, position: Vector2, ghost :Boolean) : BuildingBase {
+    fun buildBuilding(building : BuildingEnum, position: Vector2) : BuildingBase {
         var build = BuildingFactory.buildBuilding(building, position)
-        if(ghost)
-        {
-            ghostObject = build
-            build.setActive(false)
-        }
-        else
-        {
-            addBuildingUnit(build)
-            build.setActive(true)
-        }
+
+        addBuildingUnit(build)
+        build.setActive(true)
+
         return build
     }
 

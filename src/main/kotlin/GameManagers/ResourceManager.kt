@@ -5,6 +5,7 @@ import Canvas.Icon
 import Canvas.Text
 import GameRenderer.Material
 import GameRenderer.ObjectRenderer
+import org.openrndr.math.IntVector2
 import org.openrndr.math.Vector2
 
 object ResourceManager : IUpdate {
@@ -42,6 +43,23 @@ object ResourceManager : IUpdate {
     fun addResources(gold: Int, food: Int){
         this.gold += gold
         this.food += food
+    }
+
+    fun removeResources(gold: Int, food: Int){
+        this.gold -= gold
+        this.food -= food
+    }
+    fun removeResources(resources : IntVector2){
+        this.gold -= resources.x
+        this.food -= resources.y
+    }
+
+    fun canAfford(gold: Int, food: Int) : Boolean {
+        return this.gold >= gold && this.food >= food
+    }
+
+    fun canAfford(resources : IntVector2) : Boolean {
+        return this.gold >= resources.x && this.food >= resources.y
     }
 
 }

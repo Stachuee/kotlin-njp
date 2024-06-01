@@ -9,9 +9,9 @@ object UnitController  : Extension{
     override var enabled: Boolean = true
 
     var unitArray : MutableList<UnitBase> = mutableListOf<UnitBase>()
-
+    var unitsToAdd : MutableList<UnitBase> = mutableListOf<UnitBase>()
     fun addUnit(unit: UnitBase) {
-        unitArray.add(unit)
+        unitsToAdd.add(unit)
     }
 
     fun removeUnit(unit: UnitBase) {
@@ -24,6 +24,8 @@ object UnitController  : Extension{
         for(unit in unitArray){
             unit.innerUnit()
         }
+        unitArray.addAll(unitsToAdd)
+        unitsToAdd.clear()
     }
 
 }

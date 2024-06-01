@@ -1,5 +1,6 @@
 package GameObject.Units.Heroes.Types
 
+import GameManagers.BuildingManager
 import GameManagers.MapController
 import GameManagers.VillageController
 import GameObject.GameObject
@@ -20,6 +21,7 @@ class Pesant(renderer: ObjectRenderer) : HeroBase(renderer){
 
     companion object{
         var harvestTime = 3.0
+        var buildTime = 5.0
     }
 
     private var workEnd : Double = 0.0
@@ -31,6 +33,7 @@ class Pesant(renderer: ObjectRenderer) : HeroBase(renderer){
     private var currentJob : CurrentJob = CurrentJob.FOOD_HARVESTING
     private var farmToHarvest : BuildingFarm? = null
     private var mineToHarvest : BuildingMine? = null
+    private var toBuild : VillageController.BuildOrder? = null
 
     constructor() : this(ObjectRenderer("characters", Vector2(0.0,0.0), 0)) {
         this.setHP(10.0)
@@ -41,6 +44,13 @@ class Pesant(renderer: ObjectRenderer) : HeroBase(renderer){
         super.idle()
 
         renderer.animator?.triggerAnimation("idle")
+
+        toBuild = VillageController.build()
+        if(toBuild != null){
+            currentJob = CurrentJob.BUILDING
+            state = HeroStates.WORK
+            return
+        }
 
         farmToHarvest = BuildingFarm.farmReadyToHarvest()
         if(farmToHarvest != null)
@@ -131,7 +141,28 @@ class Pesant(renderer: ObjectRenderer) : HeroBase(renderer){
     }
 
     fun build(){
-
+        if(toBuild == null) state = HeroStates.IDLE
+        if(getWorldPosition().distanceTo(toBuild!!.postion) < 5){
+            renderer.animator?.triggerAnimation("attack")
+            if(!workDelay)
+            {
+                workDelay = true
+                workEnd = Time.time + buildTime
+            }
+            else if(workEnd < Time.time)
+            {
+                workDelay = false
+                BuildingManager.buildBuilding(toBuild!!.type, toBuild!!.postion)
+                toBuild = null
+                state = HeroStates.IDLE
+            }
+        }
+        else
+        {
+            renderer.animator?.triggerAnimation("walk")
+            moveDirection = (toBuild!!.postion - getWorldPosition()).normalized
+            setUnitPosition(getWorldPosition() + moveDirection * speed * Time.deltaTime)
+        }
     }
 
     fun carry(){
