@@ -50,19 +50,19 @@ fun main() = application {
          */
         InputController.addMouseListener(BuildingManager)
 
-        MapController.generateMap(Vector2(5000.0,5000.0))
+        MapController.generateMap(Vector2(5000.0, 5000.0))
     }
 }
 
 fun loadAssets(): Map<String, ColorBuffer> {
     val map = HashMap<String, ColorBuffer>()
 
-    map["buildings"] = loadImage( "src/main/resources/buildings.png")
-    map["characters"] = loadImage( "src/main/resources/characters.png")
-    map["enemies"] = loadImage( "src/main/resources/enemies.png")
-    map["foliage"] = loadImage( "src/main/resources/foliage.png")
-    map["trees"] = loadImage( "src/main/resources/trees.png")
-    map["UIOne"] = loadImage( "src/main/resources/UIOne.png")
+    map["buildings"] = loadImage( "data/images/buildings.png")
+    map["characters"] = loadImage( "data/images/characters.png")
+    map["enemies"] = loadImage( "data/images/enemies.png")
+    map["foliage"] = loadImage( "data/images/foliage.png")
+    map["trees"] = loadImage( "data/images/trees.png")
+    map["UIOne"] = loadImage( "data/images/UIOne.png")
 
     return map
 }
