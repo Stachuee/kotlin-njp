@@ -1,13 +1,17 @@
 package GameObject.Units.Buildings
 
 import GameManagers.ResourceManager
+import GameObject.Units.Heroes.HeroesBuilder
+import GameObject.Units.Heroes.HeroesEnum
+import GameRenderer.Animations.AnimationLibrary
 import GameRenderer.ObjectRenderer
 import org.openrndr.math.Vector2
 
 class BuildingWarehouse(renderer: ObjectRenderer) : BuildingBase(renderer){
 
     constructor() : this(ObjectRenderer("buildings", Vector2(0.0,1.0), 0)){
-        allWarehouses.add(this)
+        renderer.animator!!.addAnimation("build", AnimationLibrary.buildingWarehouse)
+        HeroesBuilder.placeHero(HeroesEnum.WARRIOR, getWorldPosition())
     }
 
     override fun update() {
@@ -31,6 +35,11 @@ class BuildingWarehouse(renderer: ObjectRenderer) : BuildingBase(renderer){
             }
             return closest
         }
+    }
+
+    override fun finishBuilding() {
+        super.finishBuilding()
+        allWarehouses.add(this)
     }
 
     fun deposit(gold : Int, food : Int)

@@ -11,7 +11,8 @@ object WaveSpawner : IUpdate{
     object Waves {
         class Wave(val time : Double, val enemy : EnemyEnum, val count : Int)
         val waves : List<Wave> = listOf(
-            Wave(1.0, EnemyEnum.GOBLIN, 2)
+            Wave(1.0, EnemyEnum.GOBLIN, 2),
+            Wave(10.0, EnemyEnum.GOBLIN, 2)
         )
     }
 

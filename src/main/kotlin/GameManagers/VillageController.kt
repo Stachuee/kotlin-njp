@@ -17,32 +17,35 @@ object VillageController : IUpdate {
 
     class BuildOrder(val postion : Vector2, val type : BuildingEnum)
 
-    val toBuild : MutableList<BuildOrder> = mutableListOf()
+    private val toBuild : MutableList<BuildingBase> = mutableListOf()
+    private val toRepair : MutableList<BuildingBase> = mutableListOf()
 
     fun createVillage(){
         createStartingBuildings()
-        createStartingPopulation()
     }
 
     fun createStartingBuildings(){
 
         val maxSize = Math.min(MapController.mapSize.x, MapController.mapSize.y) / 2
-        for(i in 1..10) BuildingManager.buildBuilding(BuildingEnum.MINE, RandomUtils.getPointInCircle(maxSize))
 
-        toBuild.add(BuildOrder(RandomUtils.getPointInCircle(vilageRange), BuildingEnum.WAREHOUSE))
-        toBuild.add(BuildOrder(RandomUtils.getPointInCircle(vilageRange), BuildingEnum.FARM))
+        BuildingFactory.buildBuilding(BuildingEnum.HOUSE, RandomUtils.getPointInCircle(vilageRange)).finishBuilding()
+
+        toBuild.add(BuildingFactory.buildBuilding(BuildingEnum.WAREHOUSE, RandomUtils.getPointInCircle(vilageRange)))
+        toBuild.add(BuildingFactory.buildBuilding(BuildingEnum.FARM, RandomUtils.getPointInCircle(vilageRange)))
+        toBuild.add(BuildingFactory.buildBuilding(BuildingEnum.MINE, RandomUtils.getPointInCircle(vilageRange)))
     }
 
-    fun createStartingPopulation(){
-        for(i in 1..1) HeroesBuilder.placeHero(HeroesEnum.PEASANT, RandomUtils.getPointInCircle(100.0) )
-    }
 
     override fun update() {
-        develop()
+        //develop()
     }
 
     fun checkForNewBuildings(){
         
+    }
+
+    fun addToRepair(toAdd : BuildingBase){
+        toRepair.add(toAdd)
     }
 
     fun develop(){
@@ -50,30 +53,23 @@ object VillageController : IUpdate {
         developmentCooldown = developmentCooldown - Time.deltaTime
         if(developmentCooldown <= 0)
         {
-            if(BuildingHouse.allHouses.size >= Pesant.allPesants.size)
-            {
-                HeroesBuilder.placeHero(HeroesEnum.PEASANT, BuildingHouse.allHouses[Random.int(0, BuildingHouse.allHouses.size)].getWorldPosition() )
-            }
-            else if(toBuild.find { it.type == BuildingEnum.HOUSE } == null)
-            {
-                toBuild.add(BuildOrder(RandomUtils.getPointInCircle(vilageRange), BuildingEnum.HOUSE))
-            }
+
             developmentCooldown = Random.double(checkTimer.x, checkTimer.y)
         }
     }
 
-    fun build() : BuildOrder?{
-        var returnValue : BuildOrder? = null
-        if(toBuild.isNotEmpty()) {
-            returnValue = toBuild.find {
-                ResourceManager.canAfford(BuildingCosts.costs.get(it.type)!!)
-            }
-            if(returnValue != null){
-                ResourceManager.removeResources(BuildingCosts.costs.get(returnValue.type)!!)
-                toBuild.remove(returnValue)
-            }
+    fun build() : BuildingBase?{
+        var returnValue : BuildingBase? = null
+        if(toRepair.isNotEmpty()){
+            returnValue = toRepair[0]
+            toRepair.removeFirst()
+            return returnValue
         }
 
+        if(toBuild.isNotEmpty()) {
+            returnValue = toBuild[0]
+            toBuild.removeFirst()
+        }
         return returnValue
     }
 

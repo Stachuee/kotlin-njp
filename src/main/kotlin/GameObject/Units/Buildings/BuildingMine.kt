@@ -1,12 +1,14 @@
 package GameObject.Units.Buildings
 
+import GameObject.Units.Buildings.BuildingFarm.Companion.allFarms
+import GameRenderer.Animations.AnimationLibrary
 import GameRenderer.ObjectRenderer
 import org.openrndr.math.Vector2
 
 class BuildingMine(renderer: ObjectRenderer) : BuildingBase(renderer){
 
     constructor() : this(ObjectRenderer("buildings", Vector2(2.0,0.0), 0)){
-        allMines.add(this)
+        renderer.animator!!.addAnimation("build", AnimationLibrary.buildingMine)
     }
 
     companion object{
@@ -33,5 +35,10 @@ class BuildingMine(renderer: ObjectRenderer) : BuildingBase(renderer){
 
     override fun update() {
 
+    }
+
+    override fun finishBuilding() {
+        super.finishBuilding()
+        allMines.add(this)
     }
 }

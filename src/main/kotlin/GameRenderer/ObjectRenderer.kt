@@ -113,7 +113,8 @@ class ObjectRenderer {
     }
 
     fun addAnimator(){
-        animator = Animator()
+        if(animator == null)
+            animator = Animator()
     }
 
 

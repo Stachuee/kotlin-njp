@@ -37,8 +37,6 @@ class Pesant(renderer: ObjectRenderer) : HeroBase(renderer){
     private var currentJob : CurrentJob = CurrentJob.FOOD_HARVESTING
     private var workTarget : BuildingBase? = null
 
-    private var toBuild : VillageController.BuildOrder? = null
-
     constructor() : this(ObjectRenderer("characters", Vector2(0.0,0.0), 0)) {
         this.setHP(10.0)
         this.setSpeed(75.0)
@@ -51,8 +49,8 @@ class Pesant(renderer: ObjectRenderer) : HeroBase(renderer){
 
         renderer.animator?.triggerAnimation("idle")
 
-        toBuild = VillageController.build()
-        if(toBuild != null){
+        workTarget = VillageController.build()
+        if(workTarget != null){
             currentJob = CurrentJob.BUILDING
             state = HeroStates.WORK
             return
@@ -101,7 +99,7 @@ class Pesant(renderer: ObjectRenderer) : HeroBase(renderer){
             state = HeroStates.IDLE
             return
         }
-        if(getWorldPosition().distanceTo(workTarget!!.getWorldPosition()) < 5){
+        if(getWorldPosition().distanceTo(workTarget!!.getWorldPosition()) < 50){
             renderer.animator?.triggerAnimation("attack")
 
             if(!workDelay)
@@ -128,7 +126,7 @@ class Pesant(renderer: ObjectRenderer) : HeroBase(renderer){
             state = HeroStates.IDLE
             return
         }
-        if(getWorldPosition().distanceTo(workTarget!!.getWorldPosition()) < 5){
+        if(getWorldPosition().distanceTo(workTarget!!.getWorldPosition()) < 50){
             renderer.animator?.triggerAnimation("attack")
 
             if(!workDelay)
@@ -151,11 +149,11 @@ class Pesant(renderer: ObjectRenderer) : HeroBase(renderer){
     }
 
     fun build(){
-        if(toBuild == null) {
+        if(workTarget == null) {
             state = HeroStates.IDLE
             return
         }
-        if(getWorldPosition().distanceTo(toBuild!!.postion) < 5){
+        if(getWorldPosition().distanceTo(workTarget!!.getWorldPosition()) < 50){
             renderer.animator?.triggerAnimation("attack")
             if(!workDelay)
             {
@@ -164,16 +162,16 @@ class Pesant(renderer: ObjectRenderer) : HeroBase(renderer){
             }
             else if(workEnd < Time.time)
             {
+                workTarget?.finishBuilding()
                 workDelay = false
-                BuildingManager.buildBuilding(toBuild!!.type, toBuild!!.postion)
-                toBuild = null
+                workTarget = null
                 state = HeroStates.IDLE
             }
         }
         else
         {
             renderer.animator?.triggerAnimation("walk")
-            moveDirection = (toBuild!!.postion - getWorldPosition()).normalized
+            moveDirection = (workTarget!!.getWorldPosition() - getWorldPosition()).normalized
             setUnitPosition(getWorldPosition() + moveDirection * speed * Time.deltaTime)
         }
     }
@@ -186,7 +184,7 @@ class Pesant(renderer: ObjectRenderer) : HeroBase(renderer){
                 return
             }
         }
-        if(getWorldPosition().distanceTo(workTarget!!.getWorldPosition()) < 5){
+        if(getWorldPosition().distanceTo(workTarget!!.getWorldPosition()) < 50){
             (workTarget as BuildingWarehouse).deposit(goldCarried, foodCarried)
             foodCarried = 0
             goldCarried = 0

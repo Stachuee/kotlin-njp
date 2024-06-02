@@ -13,7 +13,7 @@ abstract class EnemyBase : UnitBase {
 
     var target : UnitBase? = null
 
-    var sightRange : Double = 100.0
+    abstract var enemyType : EnemyEnum
 
     var nextCheck = Random.double0(1.0) + Time.time
 
@@ -28,6 +28,7 @@ abstract class EnemyBase : UnitBase {
         renderer.animator?.addAnimation("walk", AnimationLibrary.walk)
         renderer.animator?.addAnimation("idle", AnimationLibrary.idle)
         renderer.animator?.addAnimation("attack", AnimationLibrary.attack)
+        setStats()
     }
 
     init {
@@ -35,12 +36,13 @@ abstract class EnemyBase : UnitBase {
     }
 
     override fun update() {
+        if(!getActive()) return
         if(nextCheck < Time.time)
         {
             findTarget()
             nextCheck += targetCheck
         }
-        if(target != null && target!!.getWorldPosition().distanceTo(getWorldPosition()) < 5)
+        if(target != null && target!!.getWorldPosition().distanceTo(getWorldPosition()) < 50)
         {
             attackTarget()
         }
@@ -55,13 +57,15 @@ abstract class EnemyBase : UnitBase {
         var distance = Double.POSITIVE_INFINITY
 
         UnitController.unitArray.forEach {
-            val newDist = it.getWorldPosition().squaredDistanceTo(getWorldPosition())
-            if(distance > newDist){
-                closest = it
-                distance = newDist
+            if(it.canBeTargeted()){
+                val newDist = it.getWorldPosition().squaredDistanceTo(getWorldPosition())
+                if(distance > newDist){
+                    closest = it
+                    distance = newDist
+                }
             }
         }
-        if(closest != null && closest!!.getWorldPosition().distanceTo(getWorldPosition()) <= sightRange){
+        if(closest != null ){
             target = closest
         }
     }
@@ -69,12 +73,8 @@ abstract class EnemyBase : UnitBase {
 
     fun followTarget(){
         renderer.animator?.triggerAnimation("walk")
-        if(target == null)
+        if(target != null)
         {
-            val moveDirection = (Vector2.ZERO - getWorldPosition()).normalized
-            setUnitPosition(getWorldPosition() + moveDirection * speed * Time.deltaTime)
-        }
-        else {
             val moveDirection = (target!!.getWorldPosition() - getWorldPosition()).normalized
             setUnitPosition(getWorldPosition() + moveDirection * speed * Time.deltaTime)
         }
@@ -86,5 +86,26 @@ abstract class EnemyBase : UnitBase {
         {
             target!!.takeDamage(damage * Time.deltaTime)
         }
+    }
+
+    override fun takeDamage(damage: Double) {
+        if(!getActive()) return
+        super.takeDamage(damage)
+        if(hp <= 0){
+            targetable = false
+            setActive(false)
+            renderer.rendererActive = false
+            EnemyBuilder.returnEnemy(this)
+        }
+    }
+
+    abstract fun setStats()
+
+    fun reset(position: Vector2) {
+        setWorldPosition(position)
+        targetable = true
+        renderer.rendererActive = true
+        setActive(true)
+        setStats()
     }
 }

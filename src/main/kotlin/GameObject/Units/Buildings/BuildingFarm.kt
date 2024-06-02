@@ -46,14 +46,12 @@ class BuildingFarm (renderer: ObjectRenderer) : BuildingBase(renderer){
 
     constructor() : this(ObjectRenderer("buildings", Vector2(1.0,2.0), 0)) {
 
-        renderer.addAnimator()
         renderer.animator?.addAnimation("mature", AnimationLibrary.maturePlant)
         renderer.animator?.addAnimation("growing", AnimationLibrary.growPlant)
-        allFarms.add(this)
-        plant()
     }
 
     override fun update() {
+        if(destroyed || building) return
         if(growing)
         {
             if(matureTime <= Time.time)
@@ -63,6 +61,12 @@ class BuildingFarm (renderer: ObjectRenderer) : BuildingBase(renderer){
                 renderer.animator?.triggerAnimation("mature")
             }
         }
+    }
+
+    override fun finishBuilding() {
+        super.finishBuilding()
+        allFarms.add(this)
+        plant()
     }
 
     fun harvestLock(){

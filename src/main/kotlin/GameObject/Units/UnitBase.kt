@@ -10,12 +10,12 @@ open abstract class UnitBase : GameObject, ITakeDamage {
 
     var hp = 0.0
     var speed = 0.0
+    var targetable = true
 
     constructor(renderer : ObjectRenderer)
     {
         this.renderer = renderer
     }
-
 
     override fun setWorldPosition(position: Vector2)
     {
@@ -54,5 +54,9 @@ open abstract class UnitBase : GameObject, ITakeDamage {
     }
 
     abstract fun update()
+
+    fun canBeTargeted() :Boolean{
+        return targetable
+    }
 
 }
