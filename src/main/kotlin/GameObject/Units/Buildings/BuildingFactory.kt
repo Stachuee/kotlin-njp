@@ -1,7 +1,6 @@
 package GameObject.Units.Buildings
 
 import GameRenderer.GameCamera
-import GameRenderer.ObjectRenderer
 import org.openrndr.math.Vector2
 
 object BuildingFactory {
@@ -10,7 +9,7 @@ object BuildingFactory {
         when(building)
         {
             BuildingEnum.HOUSE -> return BuildingHouse().setUnitPosition(position) as BuildingBase
-            BuildingEnum.TAVERN -> return BuildingTavern().setUnitPosition(position) as BuildingBase
+            BuildingEnum.WAREHOUSE -> return BuildingWarehouse().setUnitPosition(position) as BuildingBase
             BuildingEnum.MINE -> return BuildingMine().setUnitPosition(position) as BuildingBase
             BuildingEnum.FARM -> return BuildingFarm().setUnitPosition(position) as BuildingBase
         }

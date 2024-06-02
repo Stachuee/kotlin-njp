@@ -41,6 +41,7 @@ fun main() = application {
         UpdateManager.addListener(BuildingManager)
         UpdateManager.addListener(ResourceManager)
         UpdateManager.addListener(VillageController)
+        UpdateManager.addListener(WaveSpawner)
 
         /*
         val mat = Material(Vector2(0.0,0.0), "buildings")

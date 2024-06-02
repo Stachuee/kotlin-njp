@@ -2,7 +2,7 @@ package GameObject.Units.Buildings
 
 enum class BuildingEnum {
     HOUSE,
-    TAVERN,
+    WAREHOUSE,
     MINE,
     FARM
 }

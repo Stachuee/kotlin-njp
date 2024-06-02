@@ -4,8 +4,10 @@ import GameManagers.BuildingManager
 import GameManagers.MapController
 import GameManagers.VillageController
 import GameObject.GameObject
+import GameObject.Units.Buildings.BuildingBase
 import GameObject.Units.Buildings.BuildingFarm
 import GameObject.Units.Buildings.BuildingMine
+import GameObject.Units.Buildings.BuildingWarehouse
 import GameObject.Units.Foliage.Foliage
 import GameObject.Units.Heroes.HeroBase
 import GameObject.Units.Heroes.HeroStates
@@ -22,6 +24,8 @@ class Pesant(renderer: ObjectRenderer) : HeroBase(renderer){
     companion object{
         var harvestTime = 3.0
         var buildTime = 5.0
+
+        val allPesants : MutableList<Pesant> = mutableListOf()
     }
 
     private var workEnd : Double = 0.0
@@ -31,17 +35,19 @@ class Pesant(renderer: ObjectRenderer) : HeroBase(renderer){
     private var foodCarried = 0
 
     private var currentJob : CurrentJob = CurrentJob.FOOD_HARVESTING
-    private var farmToHarvest : BuildingFarm? = null
-    private var mineToHarvest : BuildingMine? = null
+    private var workTarget : BuildingBase? = null
+
     private var toBuild : VillageController.BuildOrder? = null
 
     constructor() : this(ObjectRenderer("characters", Vector2(0.0,0.0), 0)) {
         this.setHP(10.0)
         this.setSpeed(75.0)
+        allPesants.add(this)
     }
 
     override fun idle() {
         super.idle()
+        workTarget = null
 
         renderer.animator?.triggerAnimation("idle")
 
@@ -52,16 +58,16 @@ class Pesant(renderer: ObjectRenderer) : HeroBase(renderer){
             return
         }
 
-        farmToHarvest = BuildingFarm.farmReadyToHarvest()
-        if(farmToHarvest != null)
+        workTarget = BuildingFarm.farmReadyToHarvest()
+        if(workTarget != null)
         {
             currentJob = CurrentJob.FOOD_HARVESTING
             state = HeroStates.WORK
             return
         }
 
-        mineToHarvest = BuildingMine.findClosestMine(getWorldPosition())
-        if(mineToHarvest != null)
+        workTarget = BuildingMine.findClosestMine(getWorldPosition())
+        if(workTarget != null)
         {
             currentJob = CurrentJob.GOLD_HARVESTING
             state = HeroStates.WORK
@@ -91,8 +97,11 @@ class Pesant(renderer: ObjectRenderer) : HeroBase(renderer){
     }
 
     fun gatherFood(){
-        if(farmToHarvest == null) state = HeroStates.IDLE
-        if(getWorldPosition().distanceTo(farmToHarvest!!.getWorldPosition()) < 5){
+        if(workTarget == null) {
+            state = HeroStates.IDLE
+            return
+        }
+        if(getWorldPosition().distanceTo(workTarget!!.getWorldPosition()) < 5){
             renderer.animator?.triggerAnimation("attack")
 
             if(!workDelay)
@@ -103,21 +112,23 @@ class Pesant(renderer: ObjectRenderer) : HeroBase(renderer){
             else if(workEnd < Time.time)
             {
                 workDelay = false
-                foodCarried += farmToHarvest!!.harvest()
+                foodCarried += (workTarget as BuildingFarm).harvest()
                 currentJob = CurrentJob.CARRYING
+                workTarget = null
             }
         }
         else
         {
-            renderer.animator?.triggerAnimation("walk")
-            moveDirection = (farmToHarvest!!.getWorldPosition() - getWorldPosition()).normalized
-            setUnitPosition(getWorldPosition() + moveDirection * speed * Time.deltaTime)
+            walkToTarget()
         }
     }
 
     fun gatherGold(){
-        if(mineToHarvest == null) state = HeroStates.IDLE
-        if(getWorldPosition().distanceTo(mineToHarvest!!.getWorldPosition()) < 5){
+        if(workTarget == null) {
+            state = HeroStates.IDLE
+            return
+        }
+        if(getWorldPosition().distanceTo(workTarget!!.getWorldPosition()) < 5){
             renderer.animator?.triggerAnimation("attack")
 
             if(!workDelay)
@@ -128,20 +139,22 @@ class Pesant(renderer: ObjectRenderer) : HeroBase(renderer){
             else if(workEnd < Time.time)
             {
                 workDelay = false
-                goldCarried += mineToHarvest!!.harvest()
+                goldCarried += (workTarget as BuildingMine).harvest()
                 currentJob = CurrentJob.CARRYING
+                workTarget = null
             }
         }
         else
         {
-            renderer.animator?.triggerAnimation("walk")
-            moveDirection = (mineToHarvest!!.getWorldPosition() - getWorldPosition()).normalized
-            setUnitPosition(getWorldPosition() + moveDirection * speed * Time.deltaTime)
+            walkToTarget()
         }
     }
 
     fun build(){
-        if(toBuild == null) state = HeroStates.IDLE
+        if(toBuild == null) {
+            state = HeroStates.IDLE
+            return
+        }
         if(getWorldPosition().distanceTo(toBuild!!.postion) < 5){
             renderer.animator?.triggerAnimation("attack")
             if(!workDelay)
@@ -166,17 +179,29 @@ class Pesant(renderer: ObjectRenderer) : HeroBase(renderer){
     }
 
     fun carry(){
-        if(getWorldPosition().distanceTo(VillageController.tavern.getWorldPosition()) < 5){
-            VillageController.tavern.deposit(goldCarried, foodCarried)
+        if(workTarget == null) {
+            workTarget = BuildingWarehouse.findClosestWarehouse(getWorldPosition())
+            if(workTarget == null) {
+                state = HeroStates.IDLE
+                return
+            }
+        }
+        if(getWorldPosition().distanceTo(workTarget!!.getWorldPosition()) < 5){
+            (workTarget as BuildingWarehouse).deposit(goldCarried, foodCarried)
             foodCarried = 0
             goldCarried = 0
             state = HeroStates.IDLE
         }
         else
         {
-            renderer.animator?.triggerAnimation("walk")
-            moveDirection = (VillageController.tavern.getWorldPosition() - getWorldPosition()).normalized
-            setUnitPosition(getWorldPosition() + moveDirection * speed * Time.deltaTime)
+            walkToTarget()
         }
     }
+
+    fun walkToTarget(){
+        renderer.animator?.triggerAnimation("walk")
+        moveDirection = (workTarget!!.getWorldPosition() - getWorldPosition()).normalized
+        setUnitPosition(getWorldPosition() + moveDirection * speed * Time.deltaTime)
+    }
+
 }

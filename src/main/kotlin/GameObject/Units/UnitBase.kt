@@ -4,7 +4,7 @@ import GameObject.GameObject
 import GameRenderer.ObjectRenderer
 import org.openrndr.math.Vector2
 
-open abstract class UnitBase : GameObject {
+open abstract class UnitBase : GameObject, ITakeDamage {
 
     var renderer : ObjectRenderer
 
@@ -31,7 +31,9 @@ open abstract class UnitBase : GameObject {
     }
 
 
-
+    override fun takeDamage(damage: Double) {
+        this.hp -= damage
+    }
 
 
     fun setHP(hp: Double): UnitBase

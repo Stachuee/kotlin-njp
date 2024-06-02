@@ -1,6 +1,7 @@
 package GameObject.Units.Heroes
 
 import GameObject.Units.Heroes.Types.Pesant
+import GameObject.Units.Heroes.Types.SpearWarrior
 import GameObject.Units.UnitBase
 import org.openrndr.math.Vector2
 
@@ -13,7 +14,7 @@ object HeroesBuilder {
                 Pesant().setUnitPosition(position)
             }
             HeroesEnum.WARRIOR -> {
-                Pesant().setUnitPosition(position)
+                SpearWarrior().setUnitPosition(position)
             }
         }
     }

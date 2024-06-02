@@ -24,8 +24,8 @@ object ResourceManager : IUpdate {
     val goldIcon = Icon(ObjectRenderer(goldMat, 0), Vector2(25.0, 25.0), Vector2(25.0, 25.0))
 
     init {
-        gold = 5
-        food = 0
+        gold = 15
+        food = 5
 
 
         Canvas.instantiateCanvasObject(meatIcon)
