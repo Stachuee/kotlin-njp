@@ -1,6 +1,7 @@
 package GameRenderer.Animations
 
 import GameRenderer.Animations.Keys.AnimationKeys
+import GameRenderer.Animations.Keys.RotationKeys
 import GameRenderer.ObjectRenderer
 import SimulationEngine.Time
 import org.openrndr.extra.shapes.regularPolygon
@@ -15,6 +16,10 @@ class Animation {
 
     fun addAnimationKeys(keys : AnimationKeys) : Animation{
         animationKeys.add(keys)
+        return this
+    }
+    fun addAnimationKeys(keys : List<AnimationKeys>) : Animation{
+        animationKeys.addAll(keys)
         return this
     }
 
@@ -48,5 +53,13 @@ class Animation {
 
 
         return true
+    }
+
+    fun copy() : Animation {
+        return Animation()
+            .setLooping(looping)
+            .addAnimationKeys(
+                animationKeys
+            )
     }
 }

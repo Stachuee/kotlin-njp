@@ -12,6 +12,7 @@ import org.openrndr.application
 import org.openrndr.color.ColorRGBa
 import org.openrndr.draw.ColorBuffer
 import org.openrndr.draw.loadImage
+import org.openrndr.extra.noise.Random
 import org.openrndr.math.Vector2
 
 
@@ -26,6 +27,7 @@ fun main() = application {
     }
     program {
         Assets = loadAssets()
+        Random.seed = System.currentTimeMillis().toString()
 
         extend {
             drawer.clear(ColorRGBa.BLACK)

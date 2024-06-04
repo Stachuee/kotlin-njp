@@ -23,7 +23,7 @@ class BuildingHouse(renderer: ObjectRenderer) : BuildingBase(renderer){
     }
 
     override fun finishBuilding() {
+        if(!destroyed) HeroesBuilder.placeHero(HeroesEnum.PEASANT, getWorldPosition())
         super.finishBuilding()
-        HeroesBuilder.placeHero(HeroesEnum.PEASANT, getWorldPosition())
     }
 }

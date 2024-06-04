@@ -18,10 +18,10 @@ abstract class HeroBase: UnitBase {
 
     constructor(renderer: ObjectRenderer) : super(renderer) {
         renderer.addAnimator()
-        renderer.animator?.addAnimation("walk", AnimationLibrary.walk)
-        renderer.animator?.addAnimation("idle", AnimationLibrary.idle)
-        renderer.animator?.addAnimation("attack", AnimationLibrary.attack)
-        renderer.animator?.addAnimation("down", AnimationLibrary.down)
+        renderer.animator?.addAnimation("walk", AnimationLibrary.walk.copy())
+        renderer.animator?.addAnimation("idle", AnimationLibrary.idle.copy())
+        renderer.animator?.addAnimation("attack", AnimationLibrary.attack.copy())
+        renderer.animator?.addAnimation("down", AnimationLibrary.down.copy())
         UnitController.addUnit(this)
     }
 

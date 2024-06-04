@@ -4,5 +4,6 @@ enum class BuildingEnum {
     HOUSE,
     WAREHOUSE,
     MINE,
-    FARM
+    FARM,
+    TOWER
 }

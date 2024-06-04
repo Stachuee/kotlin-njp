@@ -24,7 +24,7 @@ object ResourceManager : IUpdate {
     val goldIcon = Icon(ObjectRenderer(goldMat, 0), Vector2(25.0, 25.0), Vector2(25.0, 25.0))
 
     init {
-        gold = 20
+        gold = 5
         food = 5
 
 

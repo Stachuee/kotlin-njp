@@ -1,9 +1,6 @@
 package GameManagers
 
 import GameObject.Units.Buildings.*
-import GameObject.Units.Heroes.HeroesBuilder
-import GameObject.Units.Heroes.HeroesEnum
-import GameObject.Units.Heroes.Types.Pesant
 import SimulationEngine.Time
 import Utils.RandomUtils
 import org.openrndr.extra.noise.Random
@@ -30,14 +27,14 @@ object VillageController : IUpdate {
 
         BuildingFactory.buildBuilding(BuildingEnum.HOUSE, RandomUtils.getPointInCircle(vilageRange)).finishBuilding()
 
-        toBuild.add(BuildingFactory.buildBuilding(BuildingEnum.WAREHOUSE, RandomUtils.getPointInCircle(vilageRange)))
-        toBuild.add(BuildingFactory.buildBuilding(BuildingEnum.FARM, RandomUtils.getPointInCircle(vilageRange)))
-        toBuild.add(BuildingFactory.buildBuilding(BuildingEnum.MINE, RandomUtils.getPointInCircle(vilageRange)))
+        toBuild.add(BuildingFactory.buildBuilding(BuildingEnum.WAREHOUSE, BuildingManager.findBuildingSpot()))
+        toBuild.add(BuildingFactory.buildBuilding(BuildingEnum.FARM, BuildingManager.findBuildingSpot()))
+        toBuild.add(BuildingFactory.buildBuilding(BuildingEnum.MINE, BuildingManager.findBuildingSpot()))
     }
 
 
     override fun update() {
-        //develop()
+        develop()
     }
 
     fun checkForNewBuildings(){
@@ -53,6 +50,24 @@ object VillageController : IUpdate {
         developmentCooldown = developmentCooldown - Time.deltaTime
         if(developmentCooldown <= 0)
         {
+            val canAfford = BuildingInfo.info.filter { ResourceManager.canAfford(it.value.cost) }
+            var highest = Double.NEGATIVE_INFINITY
+            var building = BuildingEnum.HOUSE
+
+            canAfford.forEach{
+                val value = it.value.weight + (BuildingManager.getBuildingCount(it.key) * it.value.weightChange)
+                if(value > highest)
+                {
+                    highest = value
+                    building = it.key
+                }
+            }
+
+            if(highest > -100000.0)
+            {
+                toBuild.add(BuildingFactory.buildBuilding(building, BuildingManager.findBuildingSpot()))
+                ResourceManager.removeResources(BuildingInfo.info.get(building)!!.cost)
+            }
 
             developmentCooldown = Random.double(checkTimer.x, checkTimer.y)
         }
@@ -71,6 +86,10 @@ object VillageController : IUpdate {
             toBuild.removeFirst()
         }
         return returnValue
+    }
+
+    fun expandVillage() {
+        vilageRange += 100.0
     }
 
 }

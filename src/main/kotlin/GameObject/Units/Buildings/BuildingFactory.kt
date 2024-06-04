@@ -12,6 +12,7 @@ object BuildingFactory {
             BuildingEnum.WAREHOUSE -> return BuildingWarehouse().setUnitPosition(position) as BuildingBase
             BuildingEnum.MINE -> return BuildingMine().setUnitPosition(position) as BuildingBase
             BuildingEnum.FARM -> return BuildingFarm().setUnitPosition(position) as BuildingBase
+            BuildingEnum.TOWER -> return BuildingTower().setUnitPosition(position) as BuildingBase
         }
     }
 

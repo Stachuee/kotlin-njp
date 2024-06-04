@@ -14,8 +14,8 @@ abstract class BuildingBase : UnitBase {
     constructor(renderer: ObjectRenderer) : super(renderer){
         renderer.setPosition(getWorldPosition())
         renderer.addAnimator()
-        renderer.animator?.addAnimation("building", AnimationLibrary.buildingProgress)
-        renderer.animator?.addAnimation("destroyed", AnimationLibrary.buildingDestroyed)
+        renderer.animator?.addAnimation("building", AnimationLibrary.buildingProgress.copy())
+        renderer.animator?.addAnimation("destroyed", AnimationLibrary.buildingDestroyed.copy())
 
         renderer.animator?.triggerAnimation("building")
 
@@ -29,6 +29,8 @@ abstract class BuildingBase : UnitBase {
         targetable = true
         renderer.animator?.triggerAnimation("build")
     }
+
+
 
     override fun takeDamage(damage: Double) {
         if(destroyed) return
