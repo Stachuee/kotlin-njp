@@ -11,7 +11,13 @@ object BuildingInfo {
         BuildingEnum.FARM to BuildingInfo(IntVector2(5,0), 150.0, -15.0),
         BuildingEnum.MINE to BuildingInfo(IntVector2(0,5), 150.0, -15.0),
         BuildingEnum.WAREHOUSE to BuildingInfo(IntVector2(10,10), 50.0, -10.0),
-        BuildingEnum.TOWER to BuildingInfo(IntVector2(15,5), 100.0, -20.0)
+
+        BuildingEnum.TOWER to BuildingInfo(IntVector2(10,5), 100.0, -10.0),
+        BuildingEnum.ARENA to BuildingInfo(IntVector2(15,10), 60.0, -10.0),
+        BuildingEnum.CHAPEL to BuildingInfo(IntVector2(15,20), 80.0, -10.0),
+        BuildingEnum.CASTLE to BuildingInfo(IntVector2(65,40), 50.0, -10.0),
+        BuildingEnum.SHRINE to BuildingInfo(IntVector2(100,100), 30.0, -10.0),
+        BuildingEnum.TREEHOUSE to BuildingInfo(IntVector2(20,40), 75.0, -10.0),
         )
 
 }

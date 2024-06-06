@@ -5,5 +5,11 @@ enum class BuildingEnum {
     WAREHOUSE,
     MINE,
     FARM,
-    TOWER
+
+    TOWER,
+    ARENA,
+    CASTLE,
+    CHAPEL,
+    SHRINE,
+    TREEHOUSE
 }

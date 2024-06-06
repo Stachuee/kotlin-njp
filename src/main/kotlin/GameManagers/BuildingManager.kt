@@ -1,10 +1,13 @@
 package GameManagers
 
-import GameManagers.VillageController.vilageRange
 import GameObject.Units.Buildings.*
+import GameObject.Units.Buildings.ProductionBuildings.BuildingFarm
+import GameObject.Units.Buildings.ProductionBuildings.BuildingHouse
+import GameObject.Units.Buildings.ProductionBuildings.BuildingMine
+import GameObject.Units.Buildings.ProductionBuildings.BuildingWarehouse
+import GameObject.Units.Buildings.UnitBuildings.BuildingTower
 import GameObject.Units.UnitController
 import GameRenderer.GameCamera
-import GameRenderer.ObjectRenderer
 import InputSystem.IMouseButton
 import InputSystem.InputController
 import Utils.RandomUtils
@@ -25,8 +28,7 @@ object BuildingManager : IMouseButton, IUpdate  {
 
     fun buildBuilding(building : BuildingEnum, position: Vector2) : BuildingBase {
         var build = BuildingFactory.buildBuilding(building, position)
-
-        buildingSpots.add(position)
+        
         addBuildingUnit(build)
         build.setActive(true)
 
@@ -81,7 +83,7 @@ object BuildingManager : IMouseButton, IUpdate  {
             BuildingEnum.WAREHOUSE -> return BuildingWarehouse.allWarehouses.size
             BuildingEnum.MINE -> return BuildingMine.allMines.size
             BuildingEnum.FARM -> return BuildingFarm.allFarms.size
-            BuildingEnum.TOWER -> return BuildingTower.allTowers.size
+            else -> {return 0}
         }
     }
 
@@ -93,6 +95,7 @@ object BuildingManager : IMouseButton, IUpdate  {
             pos = RandomUtils.getPointInCircle(VillageController.vilageRange)
             iterations++
         } while (buildingSpots.any { Math.abs(it.x - pos.x) > 160.0 && Math.abs(it.y - pos.y) > 160.0 })
+        buildingSpots.add(pos)
         return pos
     }
 }

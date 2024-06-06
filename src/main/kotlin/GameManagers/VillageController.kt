@@ -1,6 +1,8 @@
 package GameManagers
 
 import GameObject.Units.Buildings.*
+import GameObject.Units.Heroes.HeroesBuilder
+import GameObject.Units.Heroes.HeroesEnum
 import SimulationEngine.Time
 import Utils.RandomUtils
 import org.openrndr.extra.noise.Random
@@ -26,6 +28,7 @@ object VillageController : IUpdate {
         val maxSize = Math.min(MapController.mapSize.x, MapController.mapSize.y) / 2
 
         BuildingFactory.buildBuilding(BuildingEnum.HOUSE, RandomUtils.getPointInCircle(vilageRange)).finishBuilding()
+        HeroesBuilder.placeHero(HeroesEnum.BOWMAN, Vector2.ZERO);
 
         toBuild.add(BuildingFactory.buildBuilding(BuildingEnum.WAREHOUSE, BuildingManager.findBuildingSpot()))
         toBuild.add(BuildingFactory.buildBuilding(BuildingEnum.FARM, BuildingManager.findBuildingSpot()))

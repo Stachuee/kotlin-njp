@@ -30,7 +30,6 @@ abstract class HeroBase: UnitBase {
         renderer.sortingLayer = -getWorldPosition().y.toInt() - 100
         if(down) return
         renderer.setFlipped(moveDirection.x > 0)
-        regenHp()
         when (state){
             HeroStates.IDLE -> idle()
             HeroStates.PANICKED -> panic()
@@ -39,7 +38,7 @@ abstract class HeroBase: UnitBase {
     }
 
     open fun idle(){
-
+        regenHp()
     }
 
     open fun panic(){

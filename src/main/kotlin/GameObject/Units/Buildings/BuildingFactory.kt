@@ -1,5 +1,10 @@
 package GameObject.Units.Buildings
 
+import GameObject.Units.Buildings.ProductionBuildings.BuildingFarm
+import GameObject.Units.Buildings.ProductionBuildings.BuildingHouse
+import GameObject.Units.Buildings.ProductionBuildings.BuildingMine
+import GameObject.Units.Buildings.ProductionBuildings.BuildingWarehouse
+import GameObject.Units.Buildings.UnitBuildings.*
 import GameRenderer.GameCamera
 import org.openrndr.math.Vector2
 
@@ -13,6 +18,11 @@ object BuildingFactory {
             BuildingEnum.MINE -> return BuildingMine().setUnitPosition(position) as BuildingBase
             BuildingEnum.FARM -> return BuildingFarm().setUnitPosition(position) as BuildingBase
             BuildingEnum.TOWER -> return BuildingTower().setUnitPosition(position) as BuildingBase
+            BuildingEnum.ARENA -> return BuildingArena().setUnitPosition(position) as BuildingBase
+            BuildingEnum.CASTLE -> return BuildingCastle().setUnitPosition(position) as BuildingBase
+            BuildingEnum.CHAPEL -> return BuildingChapel().setUnitPosition(position) as BuildingBase
+            BuildingEnum.SHRINE -> return BuildingShrine().setUnitPosition(position) as BuildingBase
+            BuildingEnum.TREEHOUSE -> return BuildingTreehouse().setUnitPosition(position) as BuildingBase
         }
     }
 

@@ -90,6 +90,45 @@ object AnimationLibrary {
                 .addKey(SpriteKeys.SpriteKey("buildings", Vector2(1.0,0.0), 1.0))
         )
 
+    val buildingCastle = Animation()
+        .setLooping(true)
+        .addAnimationKeys(
+            SpriteKeys()
+                .addKey(SpriteKeys.SpriteKey("buildings", Vector2(2.0,1.0), 0.0))
+                .addKey(SpriteKeys.SpriteKey("buildings", Vector2(2.0,1.0), 1.0))
+        )
+
+    val buildingArena = Animation()
+        .setLooping(true)
+        .addAnimationKeys(
+            SpriteKeys()
+                .addKey(SpriteKeys.SpriteKey("buildings", Vector2(0.0,1.0), 0.0))
+                .addKey(SpriteKeys.SpriteKey("buildings", Vector2(0.0,1.0), 1.0))
+        )
+
+    val buildingChapel = Animation()
+        .setLooping(true)
+        .addAnimationKeys(
+            SpriteKeys()
+                .addKey(SpriteKeys.SpriteKey("buildings", Vector2(3.0,1.0), 0.0))
+                .addKey(SpriteKeys.SpriteKey("buildings", Vector2(3.0,1.0), 1.0))
+        )
+
+    val buildingShrine = Animation()
+        .setLooping(true)
+        .addAnimationKeys(
+            SpriteKeys()
+                .addKey(SpriteKeys.SpriteKey("buildings", Vector2(4.0,1.0), 0.0))
+                .addKey(SpriteKeys.SpriteKey("buildings", Vector2(4.0,1.0), 1.0))
+        )
+
+    val buildingTreehouse = Animation()
+        .setLooping(true)
+        .addAnimationKeys(
+            SpriteKeys()
+                .addKey(SpriteKeys.SpriteKey("buildings", Vector2(4.0,0.0), 0.0))
+                .addKey(SpriteKeys.SpriteKey("buildings", Vector2(4.0,0.0), 1.0))
+        )
 
     val maturePlant = Animation()
         .setLooping(true)

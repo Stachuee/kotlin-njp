@@ -1,5 +1,6 @@
-package GameObject.Units.Buildings
+package GameObject.Units.Buildings.ProductionBuildings
 
+import GameObject.Units.Buildings.BuildingBase
 import GameRenderer.Animations.AnimationLibrary
 import GameRenderer.ObjectRenderer
 import SimulationEngine.Time

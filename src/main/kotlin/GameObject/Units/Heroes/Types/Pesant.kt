@@ -1,20 +1,14 @@
 package GameObject.Units.Heroes.Types
 
-import GameManagers.BuildingManager
-import GameManagers.MapController
 import GameManagers.VillageController
-import GameObject.GameObject
 import GameObject.Units.Buildings.BuildingBase
-import GameObject.Units.Buildings.BuildingFarm
-import GameObject.Units.Buildings.BuildingMine
-import GameObject.Units.Buildings.BuildingWarehouse
-import GameObject.Units.Foliage.Foliage
+import GameObject.Units.Buildings.ProductionBuildings.BuildingFarm
+import GameObject.Units.Buildings.ProductionBuildings.BuildingMine
+import GameObject.Units.Buildings.ProductionBuildings.BuildingWarehouse
 import GameObject.Units.Heroes.HeroBase
 import GameObject.Units.Heroes.HeroStates
 import GameRenderer.ObjectRenderer
 import SimulationEngine.Time
-import Utils.RandomUtils
-import org.openrndr.extra.noise.Random
 import org.openrndr.math.Vector2
 
 class Pesant(renderer: ObjectRenderer) : HeroBase(renderer){

@@ -9,6 +9,7 @@ open abstract class UnitBase : GameObject, ITakeDamage {
     var renderer : ObjectRenderer
 
     var hp = 0.0
+    var maxHp = 0.0
     var speed = 0.0
     var targetable = true
 
@@ -39,6 +40,12 @@ open abstract class UnitBase : GameObject, ITakeDamage {
     fun setHP(hp: Double): UnitBase
     {
         this.hp = hp
+        return this
+    }
+
+    fun heal(hp: Double): UnitBase
+    {
+        this.hp += hp
         return this
     }
 

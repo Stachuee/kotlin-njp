@@ -1,8 +1,7 @@
-package GameObject.Units.Buildings
+package GameObject.Units.Buildings.ProductionBuildings
 
 import GameManagers.ResourceManager
-import GameObject.Units.Heroes.HeroesBuilder
-import GameObject.Units.Heroes.HeroesEnum
+import GameObject.Units.Buildings.BuildingBase
 import GameRenderer.Animations.AnimationLibrary
 import GameRenderer.ObjectRenderer
 import org.openrndr.math.Vector2
@@ -11,7 +10,6 @@ class BuildingWarehouse(renderer: ObjectRenderer) : BuildingBase(renderer){
 
     constructor() : this(ObjectRenderer("buildings", Vector2(0.0,1.0), 0)){
         renderer.animator!!.addAnimation("build", AnimationLibrary.buildingWarehouse)
-        HeroesBuilder.placeHero(HeroesEnum.WARRIOR, getWorldPosition())
     }
 
     override fun update() {

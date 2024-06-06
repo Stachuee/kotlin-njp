@@ -2,5 +2,10 @@ package GameObject.Units.Heroes
 
 enum class HeroesEnum {
     PEASANT,
-    WARRIOR
+    PRISONER,
+    BOWMAN,
+    GLADIATOR,
+    KNIGHT,
+    MAGE,
+    PRIEST
 }

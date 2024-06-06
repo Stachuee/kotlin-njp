@@ -1,10 +1,10 @@
-package GameObject.Units.Buildings
+package GameObject.Units.Buildings.ProductionBuildings
 
+import GameObject.Units.Buildings.BuildingBase
 import GameObject.Units.Heroes.HeroesBuilder
 import GameObject.Units.Heroes.HeroesEnum
 import GameRenderer.Animations.AnimationLibrary
 import GameRenderer.ObjectRenderer
-import Utils.RandomUtils
 import org.openrndr.math.Vector2
 
 class BuildingHouse(renderer: ObjectRenderer) : BuildingBase(renderer){

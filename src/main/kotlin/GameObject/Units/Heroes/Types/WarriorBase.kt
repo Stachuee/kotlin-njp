@@ -26,6 +26,11 @@ abstract class WarriorBase(renderer: ObjectRenderer) : HeroBase(renderer){
 
     override fun update() {
         super.update()
+        behaviour()
+    }
+
+    open fun behaviour()
+    {
         if(nextCheck < Time.time)
         {
             findattackTarget()
@@ -33,10 +38,9 @@ abstract class WarriorBase(renderer: ObjectRenderer) : HeroBase(renderer){
         }
         if(attackTarget == null) state = HeroStates.IDLE
         else state = HeroStates.WORK
-
     }
 
-    fun findattackTarget(){
+    open fun findattackTarget(){
         var closest : UnitBase? = null
         var distance = Double.POSITIVE_INFINITY
 
@@ -55,7 +59,7 @@ abstract class WarriorBase(renderer: ObjectRenderer) : HeroBase(renderer){
     }
 
 
-    fun followattackTarget(){
+    open fun followattackTarget(){
         renderer.animator?.triggerAnimation("walk")
         if(attackTarget != null)
         {
@@ -64,7 +68,7 @@ abstract class WarriorBase(renderer: ObjectRenderer) : HeroBase(renderer){
         }
     }
 
-    fun attackattackTarget(){
+    open fun attackattackTarget(){
         renderer.animator?.triggerAnimation("attack")
         if(attackTarget != null)
         {
@@ -95,7 +99,6 @@ abstract class WarriorBase(renderer: ObjectRenderer) : HeroBase(renderer){
     }
 
     override fun work() {
-        super.work()
         target = null
         if(attackTarget != null && attackTarget!!.getWorldPosition().distanceTo(getWorldPosition()) < 50)
         {
