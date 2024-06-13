@@ -32,10 +32,11 @@ object InputController :Extension {
             }
         }
 
+        /*
         program.mouse.scrolled.listen{
             mouseScrollAxis = Time.deltaTime * it.rotation.y
         }
-
+         */
 
         program.keyboard.keyDown.listen {
             when(it.name){

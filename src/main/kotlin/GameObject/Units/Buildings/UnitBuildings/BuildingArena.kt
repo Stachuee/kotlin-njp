@@ -11,6 +11,10 @@ class BuildingArena (renderer: ObjectRenderer) : BuildingBase(renderer){
 
     constructor() : this(ObjectRenderer("buildings", Vector2(1.0,1.0), 0)){
         renderer.animator!!.addAnimation("build", AnimationLibrary.buildingArena)
+        arenaCount++
+    }
+    companion object{
+        var arenaCount = 0;
     }
 
     override fun update() {

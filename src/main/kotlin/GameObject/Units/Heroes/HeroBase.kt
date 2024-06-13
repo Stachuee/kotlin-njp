@@ -28,7 +28,11 @@ abstract class HeroBase: UnitBase {
 
     override fun update() {
         renderer.sortingLayer = -getWorldPosition().y.toInt() - 100
-        if(down) return
+        regenHp()
+        if(down) {
+            recover()
+            return
+        }
         renderer.setFlipped(moveDirection.x > 0)
         when (state){
             HeroStates.IDLE -> idle()
@@ -38,7 +42,7 @@ abstract class HeroBase: UnitBase {
     }
 
     open fun idle(){
-        regenHp()
+
     }
 
     open fun panic(){
@@ -60,8 +64,18 @@ abstract class HeroBase: UnitBase {
         }
     }
 
+    fun recover(){
+        if(hp >= maxHp - 1)
+        {
+            down = false
+            targetable = true
+        }
+    }
+
     fun regenHp(){
-        setHP(hp + 1 * Time.deltaTime)
+        var multiplier = 1.0
+        if (down) multiplier = 5.0
+        setHP(Math.min(hp + 1 * Time.deltaTime * multiplier, maxHp))
     }
 
 }

@@ -7,6 +7,8 @@ import GameObject.Units.Buildings.ProductionBuildings.BuildingMine
 import GameObject.Units.Buildings.ProductionBuildings.BuildingWarehouse
 import GameObject.Units.Heroes.HeroBase
 import GameObject.Units.Heroes.HeroStates
+import GameObject.Units.Heroes.HeroStats
+import GameObject.Units.Heroes.HeroesEnum
 import GameRenderer.ObjectRenderer
 import SimulationEngine.Time
 import org.openrndr.math.Vector2
@@ -16,8 +18,8 @@ class Pesant(renderer: ObjectRenderer) : HeroBase(renderer){
     private enum class CurrentJob {FOOD_HARVESTING, GOLD_HARVESTING, BUILDING, CARRYING}
 
     companion object{
-        var harvestTime = 3.0
-        var buildTime = 5.0
+        var harvestTime = 1.5
+        var buildTime = 1.5
 
         val allPesants : MutableList<Pesant> = mutableListOf()
     }
@@ -32,8 +34,9 @@ class Pesant(renderer: ObjectRenderer) : HeroBase(renderer){
     private var workTarget : BuildingBase? = null
 
     constructor() : this(ObjectRenderer("characters", Vector2(0.0,0.0), 0)) {
-        this.setHP(10.0)
-        this.setSpeed(75.0)
+        val hero = HeroStats.info.get(HeroesEnum.PEASANT)!!
+        this.setMaxHp(hero.hp)
+        this.setSpeed(hero.speed)
         allPesants.add(this)
     }
 

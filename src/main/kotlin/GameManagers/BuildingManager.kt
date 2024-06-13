@@ -5,7 +5,7 @@ import GameObject.Units.Buildings.ProductionBuildings.BuildingFarm
 import GameObject.Units.Buildings.ProductionBuildings.BuildingHouse
 import GameObject.Units.Buildings.ProductionBuildings.BuildingMine
 import GameObject.Units.Buildings.ProductionBuildings.BuildingWarehouse
-import GameObject.Units.Buildings.UnitBuildings.BuildingTower
+import GameObject.Units.Buildings.UnitBuildings.*
 import GameObject.Units.UnitController
 import GameRenderer.GameCamera
 import InputSystem.IMouseButton
@@ -83,7 +83,12 @@ object BuildingManager : IMouseButton, IUpdate  {
             BuildingEnum.WAREHOUSE -> return BuildingWarehouse.allWarehouses.size
             BuildingEnum.MINE -> return BuildingMine.allMines.size
             BuildingEnum.FARM -> return BuildingFarm.allFarms.size
-            else -> {return 0}
+            BuildingEnum.TOWER -> return BuildingTower.towerCount
+            BuildingEnum.ARENA -> return BuildingArena.arenaCount
+            BuildingEnum.CASTLE -> return BuildingCastle.castleCount
+            BuildingEnum.CHAPEL -> return BuildingChapel.chapelCount
+            BuildingEnum.SHRINE -> return BuildingShrine.shrineCount
+            BuildingEnum.TREEHOUSE -> return BuildingTreehouse.treehouseCount
         }
     }
 
@@ -94,7 +99,7 @@ object BuildingManager : IMouseButton, IUpdate  {
             if(iterations > 20) VillageController.expandVillage()
             pos = RandomUtils.getPointInCircle(VillageController.vilageRange)
             iterations++
-        } while (buildingSpots.any { Math.abs(it.x - pos.x) > 160.0 && Math.abs(it.y - pos.y) > 160.0 })
+        } while (buildingSpots.any { Math.abs(it.x - pos.x) < 160.0 && Math.abs(it.y - pos.y) < 160.0 })
         buildingSpots.add(pos)
         return pos
     }

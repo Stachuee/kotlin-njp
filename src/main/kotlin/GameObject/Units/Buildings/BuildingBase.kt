@@ -27,6 +27,7 @@ abstract class BuildingBase : UnitBase {
         building = false
         destroyed = false
         targetable = true
+        hp = 50.0
         renderer.animator?.triggerAnimation("build")
     }
 

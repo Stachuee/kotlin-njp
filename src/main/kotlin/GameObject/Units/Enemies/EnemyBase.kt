@@ -13,7 +13,7 @@ abstract class EnemyBase : UnitBase {
 
     var target : UnitBase? = null
 
-    abstract var enemyType : EnemyEnum
+    var enemyType : EnemyEnum = EnemyEnum.GOBLIN
 
     var nextCheck = Random.double0(1.0) + Time.time
 

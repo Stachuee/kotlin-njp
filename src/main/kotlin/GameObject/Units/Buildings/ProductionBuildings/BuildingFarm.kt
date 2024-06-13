@@ -14,7 +14,7 @@ class BuildingFarm (renderer: ObjectRenderer) : BuildingBase(renderer){
     var locked = 0.0
 
     companion object{
-        var yield = 3
+        var yield = 5
         var growTime = 10.0
         var harvestLock = 20.0
         val allFarms : MutableList<BuildingFarm> = mutableListOf()

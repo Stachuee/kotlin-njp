@@ -12,7 +12,7 @@ object VillageController : IUpdate {
 
     val checkTimer = Vector2(10.0, 30.0)
     var developmentCooldown = 5.0
-    var vilageRange = 500.0
+    var vilageRange = 750.0
 
     class BuildOrder(val postion : Vector2, val type : BuildingEnum)
 

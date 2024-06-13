@@ -11,6 +11,11 @@ class BuildingChapel(renderer: ObjectRenderer) : BuildingBase(renderer){
 
     constructor() : this(ObjectRenderer("buildings", Vector2(1.0,1.0), 0)){
         renderer.animator!!.addAnimation("build", AnimationLibrary.buildingChapel)
+        chapelCount++
+    }
+
+    companion object{
+        var chapelCount = 0;
     }
 
     override fun update() {

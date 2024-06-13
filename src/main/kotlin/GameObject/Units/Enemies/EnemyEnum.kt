@@ -1,5 +1,9 @@
 package GameObject.Units.Enemies
 
 enum class EnemyEnum{
-    GOBLIN
+    GOBLIN,
+    HYDRA,
+    IMP,
+    SKELETON,
+    ZOMBIE
 }

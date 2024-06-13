@@ -1,5 +1,6 @@
 package GameObject.Units.Enemies
 
+import GameObject.Units.Enemies.Mele.*
 import GameObject.Units.UnitBase
 import org.openrndr.math.Vector2
 
@@ -34,6 +35,11 @@ object EnemyBuilder {
             EnemyEnum.GOBLIN -> {
                 Goblin().setUnitPosition(position)
             }
+
+            EnemyEnum.HYDRA -> Hydra().setUnitPosition(position)
+            EnemyEnum.IMP -> Imp().setUnitPosition(position)
+            EnemyEnum.SKELETON -> Skeleton().setUnitPosition(position)
+            EnemyEnum.ZOMBIE -> Zombie().setUnitPosition(position)
         }
     }
 }

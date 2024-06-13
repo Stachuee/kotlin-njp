@@ -12,7 +12,7 @@ class BuildingMine(renderer: ObjectRenderer) : BuildingBase(renderer){
     }
 
     companion object{
-        val yield = 3
+        val yield = 5
         val allMines : MutableList<BuildingMine> = mutableListOf()
 
         fun findClosestMine(postion : Vector2) : BuildingMine?{

@@ -16,7 +16,7 @@ object GameCamera : Extension{
 
     override var enabled: Boolean = true
 
-    private var camZoom = 1.0
+    private var camZoom = 0.2
 
     //val gameworldUnitScale = 0.5
     private var gameCameraSize  = Vector2(100.0,100.0)
@@ -73,7 +73,9 @@ object GameCamera : Extension{
     fun moveCam()
     {
         val input = InputController;
-        drawerWorldPosition += Vector2(input.getAxis("horizontal"), input.getAxis("vertical")) * camSpeed * Time.deltaTime
+        //drawerWorldPosition += Vector2(input.getAxis("horizontal"), input.getAxis("vertical")) * camSpeed * Time.deltaTime
+        //drawerWorldPosition = Vector2(drawerWorldPosition.x.coerceIn(-MapController.mapSize[0], MapController.mapSize[0]),
+        //    drawerWorldPosition.y.coerceIn(-MapController.mapSize[1], MapController.mapSize[1]))
     }
 
     fun changeCamZoom()

@@ -43,6 +43,14 @@ open abstract class UnitBase : GameObject, ITakeDamage {
         return this
     }
 
+    fun setMaxHp(hp: Double): UnitBase
+    {
+        this.hp = hp
+        this.maxHp = hp
+        return this
+    }
+
+
     fun heal(hp: Double): UnitBase
     {
         this.hp += hp
