@@ -174,9 +174,9 @@ tasks {
     named<org.beryx.runtime.JPackageTask>("jpackage") {
         doLast {
             val destPath = if(OperatingSystem.current().isMacOsX)
-                "build/jpackage/openrndr-application.app/Contents/Resources/data"
+                "build/jpackage/VillageSimulator.app/Contents/Resources/data"
             else
-                "build/jpackage/openrndr-application/data"
+                "build/jpackage/VillageSimulator/data"
 
             copy {
                 from("data") {
@@ -191,7 +191,7 @@ tasks {
 // ------------------------------------------------------------------------------------------------------------------ //
 
 tasks.register<Zip>("jpackageZip") {
-    archiveFileName.set("openrndr-application.zip")
+    archiveFileName.set("VillageSimulator.zip")
     from("${layout.buildDirectory.get()}/jpackage") {
         include("**/*")
     }
@@ -202,7 +202,7 @@ tasks.findByName("jpackageZip")?.dependsOn("jpackage")
 
 runtime {
     jpackage {
-        imageName = "openrndr-application"
+        imageName = "VillageSimulator"
         skipInstaller = true
         if (OperatingSystem.current().isMacOsX) {
             jvmArgs.add("-XstartOnFirstThread")
